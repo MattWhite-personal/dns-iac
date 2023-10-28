@@ -1,9 +1,11 @@
 variable "zone_name" {
   description = "Name of the zone add to records to"
+  type = string
 }
 
 variable "rg_name" {
   description = "Name of the resource group to add the records"
+  type = string
 }
 
 variable "a-records" {
@@ -30,24 +32,15 @@ variable "aaaa-records" {
   default = []
 }
 
-variable "ptr-records" {
-  description = "PTR records to attach to the domain"
-  type = list(object({
-    name       = string
-    ttl        = optional(number)
-    records    = list(string)
-  }))
-  default = []
-}
-
-variable "mx-records" {
-  description = "MX Records for the domain"
+variable "caa-records" {
+  description = "CAA records for the domain"
   type = list(object({
     name = string
     ttl  = optional(number)
     records = list(object({
-      preference = number
-      exchange   = string
+      flags = number
+      tag   = string
+      value = string
     }))
   }))
 }
@@ -64,30 +57,24 @@ variable "cname-records" {
   default = []
 }
 
-variable "caa-records" {
-  description = "CAA records for the domain"
+variable "mx-records" {
+  description = "MX Records for the domain"
   type = list(object({
     name = string
     ttl  = optional(number)
     records = list(object({
-      flags = number
-      tag   = string
-      value = string
+      preference = number
+      exchange   = string
     }))
   }))
 }
 
-variable "ttl" {
-  type    = number
-  default = 3600
-}
-
-variable "txt-records" {
-  description = "Text records"
+variable "ptr-records" {
+  description = "PTR records to attach to the domain"
   type = list(object({
-    name    = string
-    ttl     = optional(number)
-    records = set(string)
+    name       = string
+    ttl        = optional(number)
+    records    = list(string)
   }))
   default = []
 }
@@ -104,4 +91,19 @@ variable "srv-records" {
       target = string
     }))
   }))
+}
+
+variable "txt-records" {
+  description = "Text records"
+  type = list(object({
+    name    = string
+    ttl     = optional(number)
+    records = set(string)
+  }))
+  default = []
+}
+
+variable "ttl" {
+  type    = number
+  default = 3600
 }
