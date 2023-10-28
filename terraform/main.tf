@@ -24,3 +24,10 @@ resource "azurerm_resource_group" "cdnprofiles" {
   name     = "rg-whitefam-cdnprofiles"
   location = "UK South"
 }
+
+resource "azurerm_cdn_profile" "cdm-mta-sts" {
+  name                = "cdn-mta-sts"
+  location            = "global"
+  resource_group_name = azurerm_resource_group.cdnprofiles.name
+  sku                 = "Standard_Microsoft"
+}
