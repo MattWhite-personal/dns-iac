@@ -1,7 +1,7 @@
 locals {
-  tls_rpt_email  = length(split("@", var.REPORTING_EMAIL)) == 2 ? var.REPORTING_EMAIL : "${var.REPORTING_EMAIL}@${var.DOMAIN}"
+  tls_rpt_email  = length(split("@", var.REPORTING_EMAIL)) == 2 ? var.REPORTING_EMAIL : "${var.REPORTING_EMAIL}@${var.domain-name}"
   policyhash     = formatdate("YYYYMMDDhhmmss", timestamp())
-  cdn_prefix     = lower(replace(var.DOMAIN, "/\\W|_|\\s/", "-"))
+  cdn_prefix     = lower(replace(var.domain-name, "/\\W|_|\\s/", "-"))
   storage_prefix = substr(replace(local.cdn_prefix, "-", ""), 0, 16)
 }
 
@@ -10,9 +10,10 @@ data "azurerm_resource_group" "rg" {
 }
 
 data "azurerm_dns_zone" "dns-zone" {
-  name                = var.DOMAIN
+  name                = var.domain-name
   resource_group_name = data.azurerm_resource_group.rg.name
 }
+
 
 resource "azurerm_storage_account" "stmtasts" {
   name                     = "st${local.storage_prefix}mtasts"
@@ -37,7 +38,7 @@ resource "azurerm_storage_blob" "mta-sts" {
   source_content         = <<EOF
 version: STSv1
 mode: ${var.mtastsmode}
-${join("", formatlist("mx: %s\n", var.MX))}max_age: ${var.MAX_AGE}
+${join("", formatlist("mx: %s\n", var.mx-records))}max_age: ${var.MAX_AGE}
   EOF
 }
 
@@ -60,6 +61,7 @@ resource "azurerm_storage_blob" "error" {
 }
 
 resource "azurerm_cdn_profile" "cdnmtasts" {
+  count = var.use-existing-cdn-profile ? 0 : 1
   name                = "cdn-${local.cdn_prefix}"
   location            = "global"
   resource_group_name = data.azurerm_resource_group.rg.name
@@ -68,7 +70,7 @@ resource "azurerm_cdn_profile" "cdnmtasts" {
 
 resource "azurerm_cdn_endpoint" "mtastsendpoint" {
   name                = local.cdn_prefix
-  profile_name        = azurerm_cdn_profile.cdnmtasts.name
+  profile_name        = var.use-existing-cdn-profile ? var.existing-cdn-profile : azurerm_cdn_profile.cdnmtasts[0].name
   location            = "global"
   resource_group_name = data.azurerm_resource_group.rg.name
 

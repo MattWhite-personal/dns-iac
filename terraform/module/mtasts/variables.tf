@@ -3,7 +3,7 @@ variable "location" {
   default = "uksouth"
 }
 
-variable "DOMAIN" {
+variable "domain-name" {
   type        = string
   description = "The domain MTA-STS/TLS-RPT is being deployed for."
 }
@@ -20,7 +20,7 @@ variable "MAX_AGE" {
   description = "MTA-STS max_age. Time in seconds the policy should be cached. Default is 1 day"
 }
 
-variable "MX" {
+variable "mx-records" {
   type        = list(string)
   description = "list of 'mx' records that should be included in mta-sts policy"
 }
@@ -34,4 +34,13 @@ variable "REPORTING_EMAIL" {
 variable "resource_group" {
   type        = string
   description = "resource group that contains existing resources"
+}
+variable "use-existing-cdn-profile" {
+  type = bool
+  description = "true: have the module create a cdn profile per domain, false: supply one as a variable"
+}
+
+variable "existing-cdn-profile" {
+  type = string
+  description = "CDN Profile to use if use-existing-cdn-profile is true"
 }
