@@ -7,8 +7,37 @@ variable "rg_name" {
 }
 
 variable "a-records" {
-  description = "Records to attach to the domain"
-  default     = []
+  description = "A records to attach to the domain"
+  type = list(object({
+    name       = string
+    ttl        = optional(number)
+    isAlias    = bool
+    records    = optional(list(string))
+    resourceID = optional(string)
+  }))
+  default = []
+}
+
+variable "aaaa-records" {
+  description = "AAAA records to attach to the domain"
+  type = list(object({
+    name       = string
+    ttl        = optional(number)
+    isAlias    = bool
+    records    = optional(list(string))
+    resourceID = optional(string)
+  }))
+  default = []
+}
+
+variable "ptr-records" {
+  description = "PTR records to attach to the domain"
+  type = list(object({
+    name       = string
+    ttl        = optional(number)
+    records    = list(string)
+  }))
+  default = []
 }
 
 variable "mx-records" {
@@ -61,4 +90,18 @@ variable "txt-records" {
     records = set(string)
   }))
   default = []
+}
+
+variable "srv-records" {
+  description = "SRV records for the domain"
+  type = list(object({
+    name = string
+    ttl = optional(number)
+    records = list(object({
+      priority = number
+      weight   = number
+      port = number
+      target = string
+    }))
+  }))
 }

@@ -15,8 +15,6 @@ resource "azurerm_dns_mx_record" "mx" {
       exchange   = record.value["exchange"]
     }
   }
-
-
 }
 
 resource "azurerm_dns_txt_record" "txt" {
@@ -63,6 +61,61 @@ resource "azurerm_dns_caa_record" "caa" {
       flags = record.value["flags"]
       tag   = record.value["tag"]
       value = record.value["value"]
+    }
+  }
+}
+
+resource "azurerm_dns_a_record" "a" {
+  for_each = {
+    for record in var.a-records : record.name => record
+  }
+  name                = each.value["name"]
+  zone_name           = var.zone_name
+  resource_group_name = var.rg_name
+  ttl                 = coalesce(each.value["ttl"], var.ttl)
+  records             = each.value["isAlias"] ? null : each.value["records"]
+  target_resource_id  = each.value["isAlias"] ? each.value["resourceID"] : null
+}
+
+resource "azurerm_dns_aaaa_record" "aaaa" {
+  for_each = {
+    for record in var.aaaa-records : record.name => record
+  }
+  name                = each.value["name"]
+  zone_name           = var.zone_name
+  resource_group_name = var.rg_name
+  ttl                 = coalesce(each.value["ttl"], var.ttl)
+  records             = each.value["isAlias"] ? null : each.value["records"]
+  target_resource_id  = each.value["isAlias"] ? each.value["resourceID"] : null
+}
+
+resource "azurerm_dns_ptr_record" "ptr" {
+  for_each = {
+    for record in var.ptr-records : record.name => record
+  }
+  name                = each.value["name"]
+  zone_name           = var.zone_name
+  resource_group_name = var.rg_name
+  ttl                 = coalesce(each.value["ttl"], var.ttl)
+  records             = each.value["records"]
+}
+
+resource "azurerm_dns_srv_record" "srv" {
+  for_each = {
+    for record in var.srv-records : record.name => record
+  }
+  name                = each.value["name"]
+  zone_name           = var.zone_name
+  resource_group_name = var.rg_name
+  ttl                 = coalesce(each.value["ttl"], var.ttl)
+
+  dynamic "record" {
+    for_each = each.value["records"]
+    content {
+      priority = record.value["priority"]
+      weight   = record.value["weight"]
+      port     = record.value["port"]
+      target   = record.value["target"]
     }
   }
 }
