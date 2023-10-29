@@ -62,7 +62,6 @@ module "bs-co-records" {
       record = "ext-cust.squarespace.com",
       isAlias = false
     }
-
   ]
   mx-records = [
     {
