@@ -5,8 +5,11 @@ terraform {
       version = "~> 3.78.0"
     }
   }
-  backend "local" {
-    path = "./terraform.tfstate"
+  backend "azurerm" {
+    storage_account_name = "stwhitefamterraform"
+    //storage_account_name = var.storage_account
+    container_name = "tfstate"
+    key            = "terraform.tfstate"
   }
 }
 provider "azurerm" {
@@ -17,6 +20,13 @@ provider "azurerm" {
   client_secret   = var.client_secret
   features {
 
+  }
+}
+
+locals {
+  tags = {
+    source  = "terraform"
+    managed = "as-code"
   }
 }
 
@@ -37,7 +47,7 @@ resource "azurerm_resource_group" "cdnprofiles" {
 }
 
 resource "azurerm_cdn_profile" "cdm-mta-sts" {
-  name                = "cdn-mta-sts"
+  name                = "cdn-mjwmtasts"
   location            = "global"
   resource_group_name = azurerm_resource_group.cdnprofiles.name
   sku                 = "Standard_Microsoft"

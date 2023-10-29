@@ -20,3 +20,15 @@ variable "tenant_id" {
     description = "GUID of the Azure Tenatnt to deploy to"
     sensitive = false
 }
+
+variable "access_key" {
+  type = string
+  description = "Access Key for Azure Storage Account hosting backend file"
+  sensitive = true
+}
+
+variable "storage_account" {
+  type = string
+  description = "name of azure storage account hosting state"
+  
+}
