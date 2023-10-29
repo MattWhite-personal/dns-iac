@@ -5,19 +5,23 @@ locals {
   storage_prefix = substr(replace(local.cdn_prefix, "-", ""), 0, 16)
 }
 
-data "azurerm_resource_group" "rg" {
-  name = var.resource_group
+data "azurerm_resource_group" "dns-rg" {
+  name = var.dns-resource-group
+}
+
+data "azurerm_resource_group" "cdn-rg" {
+  name = var.cdn-resource-group
 }
 
 data "azurerm_dns_zone" "dns-zone" {
   name                = var.domain-name
-  resource_group_name = data.azurerm_resource_group.rg.name
+  resource_group_name = data.azurerm_resource_group.dns-rg.name
 }
 
 
 resource "azurerm_storage_account" "stmtasts" {
   name                     = "st${local.storage_prefix}mtasts"
-  resource_group_name      = data.azurerm_resource_group.rg.name
+  resource_group_name      = data.azurerm_resource_group.cdn-rg.name
   location                 = var.location
   account_replication_type = "LRS"
   account_tier             = "Standard"
@@ -64,7 +68,7 @@ resource "azurerm_cdn_profile" "cdnmtasts" {
   count = var.use-existing-cdn-profile ? 0 : 1
   name                = "cdn-${local.cdn_prefix}"
   location            = "global"
-  resource_group_name = data.azurerm_resource_group.rg.name
+  resource_group_name = data.azurerm_resource_group.cdn-rg.name
   sku                 = "Standard_Microsoft"
 }
 
@@ -72,7 +76,7 @@ resource "azurerm_cdn_endpoint" "mtastsendpoint" {
   name                = local.cdn_prefix
   profile_name        = var.use-existing-cdn-profile ? var.existing-cdn-profile : azurerm_cdn_profile.cdnmtasts[0].name
   location            = "global"
-  resource_group_name = data.azurerm_resource_group.rg.name
+  resource_group_name = data.azurerm_resource_group.cdn-rg.name
 
   origin {
     name      = "mtasts-endpoint"
@@ -100,18 +104,19 @@ resource "azurerm_cdn_endpoint" "mtastsendpoint" {
 resource "azurerm_cdn_endpoint_custom_domain" "mtastscustomdomain" {
   name            = local.cdn_prefix
   cdn_endpoint_id = azurerm_cdn_endpoint.mtastsendpoint.id
-  host_name       = "${azurerm_dns_cname_record.mta-sts-cname.name}.${data.azurerm_dns_zone.dns-zone.name}"
+  host_name       = "${azurerm_dns_cname_record.mta-sts-cname.name}.${azurerm_dns_cname_record.mta-sts-cname.zone_name}"
   cdn_managed_https {
     certificate_type = "Dedicated"
     protocol_type = "ServerNameIndication"
     tls_version = "TLS12"
   }
+  depends_on = [azurerm_dns_cname_record.mta-sts-cname, azurerm_dns_cname_record.cdnverify-mta-sts]
 }
 
 resource "azurerm_dns_cname_record" "mta-sts-cname" {
   name                = "mta-sts"
   zone_name           = data.azurerm_dns_zone.dns-zone.name
-  resource_group_name = data.azurerm_resource_group.rg.name
+  resource_group_name = data.azurerm_resource_group.dns-rg.name
   ttl                 = 300
   target_resource_id  = azurerm_cdn_endpoint.mtastsendpoint.id
   #depends_on = [ azurerm_cdn_endpoint_custom_domain.mtastscustomdomain ]
@@ -120,7 +125,7 @@ resource "azurerm_dns_cname_record" "mta-sts-cname" {
 resource "azurerm_dns_cname_record" "cdnverify-mta-sts" {
   name                = "cdnverity.${azurerm_dns_cname_record.mta-sts-cname.name}"
   zone_name           = data.azurerm_dns_zone.dns-zone.name
-  resource_group_name = data.azurerm_resource_group.rg.name
+  resource_group_name = data.azurerm_resource_group.dns-rg.name
   ttl                 = 300
   record              = "cdnverify.${azurerm_cdn_endpoint.mtastsendpoint.name}.azureedge.net"
   #depends_on = [ azurerm_cdn_endpoint_custom_domain.mtastscustomdomain ]
@@ -129,7 +134,7 @@ resource "azurerm_dns_cname_record" "cdnverify-mta-sts" {
 resource "azurerm_dns_txt_record" "mta-sts" {
   name                = "_mta-sts"
   zone_name           = data.azurerm_dns_zone.dns-zone.name
-  resource_group_name = data.azurerm_resource_group.rg.name
+  resource_group_name = data.azurerm_resource_group.dns-rg.name
   ttl                 = 300
 
   record {
@@ -140,7 +145,7 @@ resource "azurerm_dns_txt_record" "mta-sts" {
 resource "azurerm_dns_txt_record" "smtp-tls" {
   name                = "_smtp._tls"
   zone_name           = data.azurerm_dns_zone.dns-zone.name
-  resource_group_name = data.azurerm_resource_group.rg.name
+  resource_group_name = data.azurerm_resource_group.dns-rg.name
   ttl                 = 300
 
   record {

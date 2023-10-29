@@ -31,10 +31,16 @@ variable "REPORTING_EMAIL" {
   description = "(Optional) Email to use for TLS-RPT reporting."
 }
 
-variable "resource_group" {
+variable "dns-resource-group" {
   type        = string
   description = "resource group that contains existing resources"
 }
+
+variable "cdn-resource-group" {
+  type        = string
+  description = "resource group that contains existing resources"
+}
+
 variable "use-existing-cdn-profile" {
   type = bool
   description = "true: have the module create a cdn profile per domain, false: supply one as a variable"
