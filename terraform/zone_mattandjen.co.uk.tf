@@ -10,6 +10,7 @@ module "maj-records" {
   source       = "./module/dnsrecords"
   zone_name    = azurerm_dns_zone.mattandjen-co-uk.name
   rg_name      = azurerm_resource_group.dnszones.name
+  tags = local.tags
   a-records    = []
   aaaa-records = []
   caa-records = [
@@ -30,7 +31,7 @@ module "maj-records" {
         {
           flags = 0
           tag   = "iodef"
-          value = "mailto:dndcaa@matthewjwhite.co.uk"
+          value = "mailto:dnscaa@matthewjwhite.co.uk"
         }
       ]
     }
@@ -39,7 +40,7 @@ module "maj-records" {
     {
       name    = "autodiscover",
       record  = "autodiscover.outlook.com",
-      ttl     = 300,
+      ttl     = 3600,
       isAlias = false
     },
     {
@@ -50,11 +51,6 @@ module "maj-records" {
     {
       name    = "enterpriseregistration",
       record  = "enterpriseregistration.windows.net",
-      isAlias = false
-    },
-    {
-      name    = "importtest",
-      record  = "no.record.com",
       isAlias = false
     },
     {
@@ -120,21 +116,18 @@ module "maj-records" {
       ]
     },
     {
-      name = "asuid.honeymoon",
-      records = [
-        "785BB65719041BA0A0ED39A14A41CC881653B01532783F9507B0C31FF2F54432"
-      ]
+      name    = "asuid.honeymoon",
+      records = ["785BB65719041BA0A0ED39A14A41CC881653B01532783F9507B0C31FF2F54432"]
     },
     {
-      name = "asuid.honeymoonblog",
-      records = [
-        "785BB65719041BA0A0ED39A14A41CC881653B01532783F9507B0C31FF2F54432"
-      ]
+      name    = "asuid.honeymoonblog",
+      records = ["785BB65719041BA0A0ED39A14A41CC881653B01532783F9507B0C31FF2F54432"],
+      ttl     = 900
     }
   ]
 
 }
-
+/*
 module "maj-mtasts" {
   source                   = "./module/mtasts"
   use-existing-cdn-profile = true
@@ -146,3 +139,4 @@ module "maj-mtasts" {
   depends_on = [ azurerm_resource_group.cdnprofiles, azurerm_resource_group.dnszones ]
   REPORTING_EMAIL          = "tls-reports@matthewjwhite.co.uk"
 }
+*/

@@ -10,6 +10,7 @@ module "tlw-records" {
   source       = "./module/dnsrecords"
   zone_name    = azurerm_dns_zone.tonyandlizwhite-co-uk.name
   rg_name      = azurerm_resource_group.dnszones.name
+  tags = local.tags
   a-records    = []
   aaaa-records = []
   caa-records  = []
@@ -17,11 +18,6 @@ module "tlw-records" {
     {
       name    = "autodiscover",
       record  = "autodiscover.outlook.com.",
-      isAlias = false
-    },
-    {
-      name    = "cdnverify.mta-sts",
-      record  = "cdnverify.cdntlwmtasts.azureedge.net",
       isAlias = false
     },
     {
@@ -37,11 +33,6 @@ module "tlw-records" {
     {
       name    = "lyncdiscover",
       record  = "webdir.online.lync.com.",
-      isAlias = false
-    },
-    {
-      name    = "mta-sts",
-      record  = "",
       isAlias = false
     },
     {
@@ -86,6 +77,7 @@ module "tlw-records" {
   ]
 }
 
+/*
 module "tlw-mtasts" {
   source                   = "./module/mtasts"
   use-existing-cdn-profile = true
@@ -97,3 +89,4 @@ module "tlw-mtasts" {
   depends_on               = [azurerm_resource_group.cdnprofiles, azurerm_resource_group.dnszones]
   REPORTING_EMAIL          = "tls-reports@matthewjwhite.co.uk"
 }
+*/

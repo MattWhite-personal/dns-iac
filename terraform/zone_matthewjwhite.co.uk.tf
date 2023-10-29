@@ -10,6 +10,7 @@ module "mjw-records" {
   source    = "./module/dnsrecords"
   zone_name = azurerm_dns_zone.matthewjwhite-co-uk.name
   rg_name   = azurerm_resource_group.dnszones.name
+  tags = local.tags
   mx-records = [
     {
       name = "@"
@@ -40,7 +41,7 @@ module "mjw-records" {
         {
           flags = 0
           tag   = "iodef"
-          value = "mailto:dndcaa@matthewjwhite.co.uk"
+          value = "mailto:dnscaa@matthewjwhite.co.uk"
         }
       ]
     }
@@ -52,13 +53,9 @@ module "mjw-records" {
       isAlias = false
     },
     {
-      name    = "cdnverify.mta-sts",
-      record  = "cdnverify.mjwmtasts.azureedge.net",
-      isAlias = false
-    },
-    {
       name    = "d7f095024217c24089a3adf793728469",
       record  = "verify.bing.com.",
+      ttl = 600
       isAlias = false
     },
     {
@@ -142,14 +139,6 @@ module "mjw-records" {
       records = ["5j22clbbcf3gzs95t92xr14ykh1s0jdl"]
     },
     {
-      name    = "_mta-sts",
-      records = ["v=STSv1; id=202112081700"]
-    },
-    {
-      name    = "_smtp._tls",
-      records = ["v=TLSRPTv1; rua=mailto:tls-reports@matthewjwhite.co.uk"]
-    },
-    {
       name    = "asuid.newsite",
       records = ["785BB65719041BA0A0ED39A14A41CC881653B01532783F9507B0C31FF2F54432"]
     },
@@ -161,6 +150,7 @@ module "mjw-records" {
         "google-site-verification=1UJCslKGjOU26wgnB_rnNY9WyQaXxxyNRHQxQqxFBPY",
         "ms-domain-verification=d8300c96-c9ba-4569-a0f9-469cbc585614"
       ]
+      ttl = 600
     }
   ]
   a-records = [
@@ -182,6 +172,7 @@ module "mjw-records" {
     {
       name    = "vpn",
       records = ["5.64.45.6"],
+      ttl     = 300
       isAlias = false
     }
 
@@ -190,7 +181,7 @@ module "mjw-records" {
   srv-records  = []
   ptr-records  = []
 }
-
+/*
 module "mjw-mtasts" {
   source                   = "./module/mtasts"
   use-existing-cdn-profile = true
@@ -202,3 +193,4 @@ module "mjw-mtasts" {
   depends_on               = [azurerm_resource_group.cdnprofiles, azurerm_resource_group.dnszones]
   REPORTING_EMAIL          = "tls-reports@matthewjwhite.co.uk"
 }
+*/

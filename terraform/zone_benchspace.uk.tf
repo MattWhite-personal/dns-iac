@@ -10,6 +10,7 @@ module "bs-uk-records" {
   source    = "./module/dnsrecords"
   zone_name = azurerm_dns_zone.benchspace-uk.name
   rg_name   = azurerm_resource_group.dnszones.name
+  tags = local.tags
   a-records = [
     {
       name = "@",
@@ -41,18 +42,18 @@ module "bs-uk-records" {
       isAlias = false
     },
     {
-      name   = "nhty6l3pj4xw4kj6tybz",
+      name   = "rmdgz9dlw9pjf6pw7x3l",
       record = "verify.squarespace.com",
       isAlias = false
     },
     {
       name   = "selector1._domainkey",
-      record = "selector1-benchspace-co._domainkey.objectatelier.onmicrosoft.com",
+      record = "selector1-benchspace-uk._domainkey.objectatelier.onmicrosoft.com",
       isAlias = false
     },
     {
       name   = "selector2._domainkey",
-      record = "selector2-benchspace-co._domainkey.objectatelier.onmicrosoft.com",
+      record = "selector2-benchspace-uk._domainkey.objectatelier.onmicrosoft.com",
       isAlias = false
     },
     {
@@ -68,7 +69,7 @@ module "bs-uk-records" {
       records = [
         {
           preference = 0
-          exchange   = "benchspace-co.mail.protection.outlook.com"
+          exchange   = "benchspace-uk.mail.protection.outlook.com"
         }
       ]
     }
@@ -79,13 +80,13 @@ module "bs-uk-records" {
     {
       name = "@",
       records = [
-        "MS=ms59722365",
+        "MS=ms19634485",
         "v=spf1 include:spf.protection.outlook.com -all"
       ]
     }
   ]
 }
-
+/*
 module "bs-uk-mtasts" {
   source                   = "./module/mtasts"
   use-existing-cdn-profile = true
@@ -97,3 +98,4 @@ module "bs-uk-mtasts" {
   depends_on               = [azurerm_resource_group.cdnprofiles, azurerm_resource_group.dnszones]
   REPORTING_EMAIL          = "tls-reports@matthewjwhite.co.uk"
 }
+*/

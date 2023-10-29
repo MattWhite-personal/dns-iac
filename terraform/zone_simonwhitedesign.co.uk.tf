@@ -10,15 +10,11 @@ module "swd-records" {
   source    = "./module/dnsrecords"
   zone_name = azurerm_dns_zone.simonwhitedesign-co-uk.name
   rg_name   = azurerm_resource_group.dnszones.name
+  tags = local.tags
   a-records = [
     {
-      name = "@",
-      records = [
-        "198.185.159.144",
-        "198.185.159.145",
-        "198.49.23.144",
-        "198.49.23.145"
-      ],
+      name    = "@",
+      records = ["5.172.155.151"],
       isAlias = false
     }
   ]
@@ -68,7 +64,7 @@ module "swd-records" {
       records = [
         {
           preference = 0
-          exchange   = "simonwhitedesign-co-uk.mail.protection.outlook.com"
+          exchange   = "simonwhitedesign-co-uk.mail.protection.outlook.com."
         }
       ]
     }
@@ -86,18 +82,11 @@ module "swd-records" {
     {
       name    = "_dmarc",
       records = ["v=DMARC1; p=quarantine; pct=50; rua=mailto:dmarc@simonwhitedesign.co.uk; ruf=mailto:dmarc@simonwhitedesign.co.uk; fo=1"]
-    },
-    {
-      name    = "_mta-sts",
-      records = ["v=STSv1; id=202112091053"]
-    },
-    {
-      name    = "_smtp._tls",
-      records = ["v=TLSRPTv1; rua=mailto:tls-reports@matthewjwhite.co.uk"]
     }
   ]
 }
 
+/*
 module "swd-mtasts" {
   source                   = "./module/mtasts"
   use-existing-cdn-profile = true
@@ -108,4 +97,7 @@ module "swd-mtasts" {
   domain-name              = azurerm_dns_zone.simonwhitedesign-co-uk.name
   depends_on               = [azurerm_resource_group.cdnprofiles, azurerm_resource_group.dnszones]
   REPORTING_EMAIL          = "tls-reports@matthewjwhite.co.uk"
+  resource_prefix          = "swd"
+  stg-resource-group       = "RG-WhiteFam-UKS"
 }
+*/

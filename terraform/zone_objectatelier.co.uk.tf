@@ -10,11 +10,13 @@ module "oa-records" {
   source    = "./module/dnsrecords"
   zone_name = azurerm_dns_zone.objectatelier-co-uk.name
   rg_name   = azurerm_resource_group.dnszones.name
+  tags = local.tags
   a-records = [
     {
       name    = "@",
       records = ["51.104.28.83"],
       isAlias = false
+      ttl     = 60
     }
   ]
   aaaa-records = []
@@ -36,76 +38,77 @@ module "oa-records" {
         {
           flags = 0
           tag   = "iodef"
-          value = "mailto:dndcaa@matthewjwhite.co.uk"
+          value = "mailto:dnscaa@matthewjwhite.co.uk"
         }
       ]
     }
   ]
   cname-records = [
     {
-      name   = "_domainconnect",
-      record = "_domainconnect.gd.domaincontrol.com.",
+      name    = "_domainconnect",
+      record  = "_domainconnect.gd.domaincontrol.com.",
       isAlias = false
     },
     {
-      name   = "autodiscover",
-      record = "autodiscover.outlook.com.",
+      name    = "autodiscover",
+      record  = "autodiscover.outlook.com.",
       isAlias = false
     },
     {
-      name   = "enterpriseenrollment",
-      record = "enterpriseenrollment.manage.microsoft.com.",
+      name    = "enterpriseenrollment",
+      record  = "enterpriseenrollment.manage.microsoft.com.",
       isAlias = false
     },
     {
-      name   = "enterpriseregistration",
-      record = "enterpriseregistration.windows.net.",
+      name    = "enterpriseregistration",
+      record  = "enterpriseregistration.windows.net.",
       isAlias = false
     },
     {
-      name   = "lyncdiscover",
-      record = "webdir.online.lync.com.",
+      name    = "lyncdiscover",
+      record  = "webdir.online.lync.com.",
       isAlias = false
     },
     {
-      name   = "msoid",
-      record = "clientconfig.microsoftonline-p.net.",
+      name    = "msoid",
+      record  = "clientconfig.microsoftonline-p.net.",
       isAlias = false
     },
     {
-      name   = "newsite",
-      record = "objectatelier.azurewebsites.net",
+      name    = "newsite",
+      record  = "objectatelier.azurewebsites.net",
       isAlias = false
     },
     {
-      name   = "selector1-azurecomm-prod-net._domainkey",
-      record = "selector1-azurecomm-prod-net._domainkey.azurecomm.net",
+      name    = "selector1-azurecomm-prod-net._domainkey",
+      record  = "selector1-azurecomm-prod-net._domainkey.azurecomm.net",
       isAlias = false
     },
     {
-      name   = "selector1._domainkey",
-      record = "selector1-objectatelier-co-uk._domainkey.objectatelier.onmicrosoft.com",
+      name    = "selector1._domainkey",
+      record  = "selector1-objectatelier-co-uk._domainkey.objectatelier.onmicrosoft.com",
       isAlias = false
     },
     {
-      name   = "selector2-azurecomm-prod-net._domainkey",
-      record = "selector2-azurecomm-prod-net._domainkey.azurecomm.net",
+      name    = "selector2-azurecomm-prod-net._domainkey",
+      record  = "selector2-azurecomm-prod-net._domainkey.azurecomm.net",
       isAlias = false
     },
     {
-      name   = "selector2._domainkey",
-      record = "selector2-objectatelier-co-uk._domainkey.objectatelier.onmicrosoft.com",
+      name    = "selector2._domainkey",
+      record  = "selector2-objectatelier-co-uk._domainkey.objectatelier.onmicrosoft.com",
       isAlias = false
     },
     {
-      name   = "sip",
-      record = "sipdir.online.lync.com.",
+      name    = "sip",
+      record  = "sipdir.online.lync.com.",
       isAlias = false
     },
     {
-      name   = "www",
-      record = "objectatelier.azurewebsites.net",
+      name    = "www",
+      record  = "objectatelier.azurewebsites.net",
       isAlias = false
+      ttl     = 60
     }
 
   ]
@@ -153,6 +156,7 @@ module "oa-records" {
 
 }
 
+/*
 module "oa-mtasts" {
   source                   = "./module/mtasts"
   use-existing-cdn-profile = true
@@ -164,3 +168,4 @@ module "oa-mtasts" {
   depends_on               = [azurerm_resource_group.cdnprofiles, azurerm_resource_group.dnszones]
   REPORTING_EMAIL          = "tls-reports@matthewjwhite.co.uk"
 }
+*/
