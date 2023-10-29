@@ -8,6 +8,7 @@ resource "azurerm_dns_a_record" "a" {
   ttl                 = coalesce(each.value["ttl"], var.ttl)
   records             = each.value["isAlias"] ? null : each.value["records"]
   target_resource_id  = each.value["isAlias"] ? each.value["resourceID"] : null
+  tags                = var.tags
 }
 
 resource "azurerm_dns_aaaa_record" "aaaa" {
@@ -20,6 +21,7 @@ resource "azurerm_dns_aaaa_record" "aaaa" {
   ttl                 = coalesce(each.value["ttl"], var.ttl)
   records             = each.value["isAlias"] ? null : each.value["records"]
   target_resource_id  = each.value["isAlias"] ? each.value["resourceID"] : null
+  tags                = var.tags
 }
 
 resource "azurerm_dns_caa_record" "caa" {
@@ -30,6 +32,7 @@ resource "azurerm_dns_caa_record" "caa" {
   zone_name           = var.zone_name
   resource_group_name = var.rg_name
   ttl                 = coalesce(each.value["ttl"], var.ttl)
+  tags                = var.tags
 
   dynamic "record" {
     for_each = each.value["records"]
@@ -51,6 +54,7 @@ resource "azurerm_dns_cname_record" "cname" {
   ttl                 = coalesce(each.value["ttl"], var.ttl)
   record              = each.value["isAlias"] ? null : each.value["record"]
   target_resource_id  = each.value["isAlias"] ? each.value["resourceID"] : null
+  tags                = var.tags
 }
 
 resource "azurerm_dns_mx_record" "mx" {
@@ -61,6 +65,7 @@ resource "azurerm_dns_mx_record" "mx" {
   zone_name           = var.zone_name
   resource_group_name = var.rg_name
   ttl                 = coalesce(each.value["ttl"], var.ttl)
+  tags                = var.tags
 
   dynamic "record" {
     for_each = lookup(each.value, "records", null)
@@ -80,6 +85,7 @@ resource "azurerm_dns_ptr_record" "ptr" {
   resource_group_name = var.rg_name
   ttl                 = coalesce(each.value["ttl"], var.ttl)
   records             = each.value["records"]
+  tags                = var.tags
 }
 
 resource "azurerm_dns_srv_record" "srv" {
@@ -90,6 +96,7 @@ resource "azurerm_dns_srv_record" "srv" {
   zone_name           = var.zone_name
   resource_group_name = var.rg_name
   ttl                 = coalesce(each.value["ttl"], var.ttl)
+  tags                = var.tags
 
   dynamic "record" {
     for_each = each.value["records"]
@@ -110,6 +117,7 @@ resource "azurerm_dns_txt_record" "txt" {
   zone_name           = var.zone_name
   resource_group_name = var.rg_name
   ttl                 = coalesce(each.value["ttl"], var.ttl)
+  tags                = var.tags
 
   dynamic "record" {
     for_each = each.value["records"]

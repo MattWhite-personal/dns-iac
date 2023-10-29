@@ -107,3 +107,7 @@ variable "ttl" {
   type    = number
   default = 3600
 }
+
+variable "tags" {
+  description = "Azure Resource tags to be added to all resources"
+}
