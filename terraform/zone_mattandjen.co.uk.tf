@@ -1,7 +1,7 @@
 resource "azurerm_dns_zone" "mattandjen-co-uk" {
   name                = "mattandjen.co.uk"
   resource_group_name = azurerm_resource_group.dnszones.name
-  tags = local.tags
+  tags                = local.tags
   lifecycle {
     prevent_destroy = true
   }
@@ -11,7 +11,7 @@ module "maj-records" {
   source       = "./module/dnsrecords"
   zone_name    = azurerm_dns_zone.mattandjen-co-uk.name
   rg_name      = azurerm_resource_group.dnszones.name
-  tags = local.tags
+  tags         = local.tags
   a-records    = []
   aaaa-records = []
   caa-records = [
@@ -128,7 +128,7 @@ module "maj-records" {
   ]
 
 }
-/*
+
 module "maj-mtasts" {
   source                   = "./module/mtasts"
   use-existing-cdn-profile = true
@@ -137,7 +137,10 @@ module "maj-mtasts" {
   dns-resource-group       = azurerm_resource_group.dnszones.name
   mx-records               = ["mattandjen-co-uk.mail.protection.outlook.com"]
   domain-name              = azurerm_dns_zone.mattandjen-co-uk.name
-  depends_on = [ azurerm_resource_group.cdnprofiles, azurerm_resource_group.dnszones ]
+  depends_on               = [azurerm_resource_group.cdnprofiles, azurerm_resource_group.dnszones]
   REPORTING_EMAIL          = "tls-reports@matthewjwhite.co.uk"
+  resource_prefix          = "maj"
+  stg-resource-group       = "RG-WhiteFam-UKS"
+  tags                     = local.tags
 }
-*/
+
