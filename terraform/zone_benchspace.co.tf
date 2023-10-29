@@ -11,7 +11,7 @@ module "bs-co-records" {
   source    = "./module/dnsrecords"
   zone_name = azurerm_dns_zone.benchspace-co.name
   rg_name   = azurerm_resource_group.dnszones.name
-  tags = local.tags
+  tags      = local.tags
   a-records = [
     {
       name = "@",
@@ -28,38 +28,38 @@ module "bs-co-records" {
   caa-records  = []
   cname-records = [
     {
-      name   = "autodiscover",
-      record = "autodiscover.outlook.com",
+      name    = "autodiscover",
+      record  = "autodiscover.outlook.com",
       isAlias = false
     },
     {
-      name   = "enterpriseenrollment",
-      record = "enterpriseenrollment.manage.microsoft.com",
+      name    = "enterpriseenrollment",
+      record  = "enterpriseenrollment.manage.microsoft.com",
       isAlias = false
     },
     {
-      name   = "enterpriseregistration",
-      record = "enterpriseregistration.windows.net",
+      name    = "enterpriseregistration",
+      record  = "enterpriseregistration.windows.net",
       isAlias = false
     },
     {
-      name   = "nhty6l3pj4xw4kj6tybz",
-      record = "verify.squarespace.com",
+      name    = "nhty6l3pj4xw4kj6tybz",
+      record  = "verify.squarespace.com",
       isAlias = false
     },
     {
-      name   = "selector1._domainkey",
-      record = "selector1-benchspace-co._domainkey.objectatelier.onmicrosoft.com",
+      name    = "selector1._domainkey",
+      record  = "selector1-benchspace-co._domainkey.objectatelier.onmicrosoft.com",
       isAlias = false
     },
     {
-      name   = "selector2._domainkey",
-      record = "selector2-benchspace-co._domainkey.objectatelier.onmicrosoft.com",
+      name    = "selector2._domainkey",
+      record  = "selector2-benchspace-co._domainkey.objectatelier.onmicrosoft.com",
       isAlias = false
     },
     {
-      name   = "www",
-      record = "ext-cust.squarespace.com",
+      name    = "www",
+      record  = "ext-cust.squarespace.com",
       isAlias = false
     }
   ]
@@ -89,7 +89,7 @@ module "bs-co-records" {
   ]
 }
 
-/*
+
 module "bs-co-mtasts" {
   source                   = "./module/mtasts"
   use-existing-cdn-profile = true
@@ -100,5 +100,7 @@ module "bs-co-mtasts" {
   domain-name              = azurerm_dns_zone.benchspace-co.name
   depends_on               = [azurerm_resource_group.cdnprofiles, azurerm_resource_group.dnszones]
   REPORTING_EMAIL          = "tls-reports@matthewjwhite.co.uk"
+  stg-resource-group       = "RG-WhiteFam-UKS"
+  resource_prefix          = "bsco"
+  tags = local.tags
 }
-*/
