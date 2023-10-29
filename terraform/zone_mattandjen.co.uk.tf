@@ -1,6 +1,7 @@
 resource "azurerm_dns_zone" "mattandjen-co-uk" {
   name                = "mattandjen.co.uk"
   resource_group_name = azurerm_resource_group.dnszones.name
+  tags = local.tags
   lifecycle {
     prevent_destroy = true
   }
