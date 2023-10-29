@@ -18,11 +18,17 @@ provider "azurerm" {
 resource "azurerm_resource_group" "dnszones" {
   name     = "rg-whitefam-dnszones"
   location = "UK South"
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "azurerm_resource_group" "cdnprofiles" {
   name     = "rg-whitefam-cdnprofiles"
   location = "UK South"
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "azurerm_cdn_profile" "cdm-mta-sts" {
