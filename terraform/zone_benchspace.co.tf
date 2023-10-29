@@ -88,7 +88,6 @@ module "bs-co-records" {
   ]
 }
 
-/*
 module "bs-co-mtasts" {
   source                   = "./module/mtasts"
   use-existing-cdn-profile = true
@@ -98,5 +97,5 @@ module "bs-co-mtasts" {
   mx-records               = ["benchspace-co.mail.protection.outlook.com"]
   domain-name              = azurerm_dns_zone.benchspace-co.name
   depends_on               = [azurerm_resource_group.cdnprofiles, azurerm_resource_group.dnszones]
+  REPORTING_EMAIL          = "tls-reports@matthewjwhite.co.uk"
 }
-*/

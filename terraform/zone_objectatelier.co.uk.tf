@@ -162,4 +162,5 @@ module "oa-mtasts" {
   mx-records               = ["objectatelier-co-uk.mail.protection.outlook.com"]
   domain-name              = azurerm_dns_zone.objectatelier-co-uk.name
   depends_on               = [azurerm_resource_group.cdnprofiles, azurerm_resource_group.dnszones]
+  REPORTING_EMAIL          = "tls-reports@matthewjwhite.co.uk"
 }

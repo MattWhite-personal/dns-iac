@@ -26,38 +26,38 @@ module "swd-records" {
   caa-records  = []
   cname-records = [
     {
-      name   = "autodiscover",
-      record = "autodiscover.outlook.com.",
+      name    = "autodiscover",
+      record  = "autodiscover.outlook.com.",
       isAlias = false
     },
     {
-      name   = "ftp",
-      record = "simonwhitedesign.co.uk.",
+      name    = "ftp",
+      record  = "simonwhitedesign.co.uk.",
       isAlias = false
     },
     {
-      name   = "mail",
-      record = "simonwhitedesign.co.uk.",
+      name    = "mail",
+      record  = "simonwhitedesign.co.uk.",
       isAlias = false
     },
     {
-      name   = "msoid",
-      record = "clientconfig.microsoftonline-p.net.",
+      name    = "msoid",
+      record  = "clientconfig.microsoftonline-p.net.",
       isAlias = false
     },
     {
-      name   = "selector1._domainkey",
-      record = "selector1-simonwhitedesign-co-uk._domainkey.thewhitefamily.onmicrosoft.com.",
+      name    = "selector1._domainkey",
+      record  = "selector1-simonwhitedesign-co-uk._domainkey.thewhitefamily.onmicrosoft.com.",
       isAlias = false
     },
     {
-      name   = "selector2._domainkey",
-      record = "selector2-simonwhitedesign-co-uk._domainkey.thewhitefamily.onmicrosoft.com.",
+      name    = "selector2._domainkey",
+      record  = "selector2-simonwhitedesign-co-uk._domainkey.thewhitefamily.onmicrosoft.com.",
       isAlias = false
     },
     {
-      name   = "www",
-      record = "simonwhitedesign.co.uk.",
+      name    = "www",
+      record  = "simonwhitedesign.co.uk.",
       isAlias = false
     }
   ]
@@ -107,4 +107,5 @@ module "swd-mtasts" {
   mx-records               = ["simonwhitedesign-co-uk.mail.protection.outlook.com"]
   domain-name              = azurerm_dns_zone.simonwhitedesign-co-uk.name
   depends_on               = [azurerm_resource_group.cdnprofiles, azurerm_resource_group.dnszones]
+  REPORTING_EMAIL          = "tls-reports@matthewjwhite.co.uk"
 }
