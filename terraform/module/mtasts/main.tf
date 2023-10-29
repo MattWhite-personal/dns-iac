@@ -1,13 +1,14 @@
 locals {
   tls_rpt_email  = length(split("@", var.REPORTING_EMAIL)) == 2 ? var.REPORTING_EMAIL : "${var.REPORTING_EMAIL}@${var.domain-name}"
   policyhash     = formatdate("YYYYMMDDhhmmss", timestamp())
-  cdn_prefix     = lower(replace(var.domain-name, "/\\W|_|\\s/", "-"))
-  storage_prefix = substr(replace(local.cdn_prefix, "-", ""), 0, 16)
+  cdn_prefix     = "cdn${var.resource_prefix}mtasts"
+  //lower(replace(var.domain-name, "/\\W|_|\\s/", "-"))
+  storage_prefix = coalesce(var.resource_prefix,substr(replace(local.cdn_prefix, "-", ""), 0, 16))
 }
 
 resource "azurerm_storage_account" "stmtasts" {
   name                     = "st${local.storage_prefix}mtasts"
-  resource_group_name      = var.cdn-resource-group
+  resource_group_name      = var.stg-resource-group
   location                 = var.location
   account_replication_type = "LRS"
   account_tier             = "Standard"
@@ -108,7 +109,7 @@ resource "azurerm_dns_cname_record" "mta-sts-cname" {
 }
 
 resource "azurerm_dns_cname_record" "cdnverify-mta-sts" {
-  name                = "cdnverity.${azurerm_dns_cname_record.mta-sts-cname.name}"
+  name                = "cdnverify.${azurerm_dns_cname_record.mta-sts-cname.name}"
   zone_name           = var.domain-name
   resource_group_name = var.dns-resource-group
   ttl                 = 300

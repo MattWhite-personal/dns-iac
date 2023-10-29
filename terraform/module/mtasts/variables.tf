@@ -41,6 +41,11 @@ variable "cdn-resource-group" {
   description = "resource group that contains existing resources"
 }
 
+variable "stg-resource-group" {
+  type = string
+  description = "resource group thta contains existing resources"
+}
+
 variable "use-existing-cdn-profile" {
   type = bool
   description = "true: have the module create a cdn profile per domain, false: supply one as a variable"
@@ -49,4 +54,9 @@ variable "use-existing-cdn-profile" {
 variable "existing-cdn-profile" {
   type = string
   description = "CDN Profile to use if use-existing-cdn-profile is true"
+}
+variable "resource_prefix" {
+  type = string
+  description = "Prefix to use on resources"
+  
 }
