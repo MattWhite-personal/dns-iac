@@ -60,3 +60,6 @@ variable "resource_prefix" {
   description = "Prefix to use on resources"
   
 }
+variable "tags" {
+  description = "Azure Resource tags to be added to all resources"
+}
