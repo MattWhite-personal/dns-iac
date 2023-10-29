@@ -25,7 +25,29 @@ module "bs-co-records" {
     }
   ]
   aaaa-records = []
-  caa-records  = []
+  caa-records = [
+    {
+      name = "@"
+      ttl  = 3600
+      records = [
+        {
+          flags = 0
+          tag   = "issue"
+          value = "digicert.com"
+        },
+        {
+          flags = 0
+          tag   = "issue"
+          value = "letsencrypt.org"
+        },
+        {
+          flags = 0
+          tag   = "iodef"
+          value = "mailto:dnscaa@matthewjwhite.co.uk"
+        }
+      ]
+    }
+  ]
   cname-records = [
     {
       name    = "autodiscover",
