@@ -1,7 +1,7 @@
 resource "azurerm_dns_zone" "simonwhitedesign-co-uk" {
   name                = "simonwhitedesign.co.uk"
   resource_group_name = azurerm_resource_group.dnszones.name
-  tags = local.tags
+  tags                = local.tags
   lifecycle {
     prevent_destroy = true
   }
@@ -11,7 +11,7 @@ module "swd-records" {
   source    = "./module/dnsrecords"
   zone_name = azurerm_dns_zone.simonwhitedesign-co-uk.name
   rg_name   = azurerm_resource_group.dnszones.name
-  tags = local.tags
+  tags      = local.tags
   a-records = [
     {
       name    = "@",
@@ -87,18 +87,18 @@ module "swd-records" {
   ]
 }
 
-/*
+
 module "swd-mtasts" {
   source                   = "./module/mtasts"
   use-existing-cdn-profile = true
   existing-cdn-profile     = azurerm_cdn_profile.cdm-mta-sts.name
   cdn-resource-group       = azurerm_resource_group.cdnprofiles.name
   dns-resource-group       = azurerm_resource_group.dnszones.name
+  stg-resource-group       = "RG-WhiteFam-UKS"
   mx-records               = ["simonwhitedesign-co-uk.mail.protection.outlook.com"]
   domain-name              = azurerm_dns_zone.simonwhitedesign-co-uk.name
   depends_on               = [azurerm_resource_group.cdnprofiles, azurerm_resource_group.dnszones]
   REPORTING_EMAIL          = "tls-reports@matthewjwhite.co.uk"
   resource_prefix          = "swd"
-  stg-resource-group       = "RG-WhiteFam-UKS"
+  tags                     = local.tags
 }
-*/

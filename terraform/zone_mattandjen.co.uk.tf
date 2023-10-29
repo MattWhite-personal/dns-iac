@@ -135,12 +135,13 @@ module "maj-mtasts" {
   existing-cdn-profile     = azurerm_cdn_profile.cdm-mta-sts.name
   cdn-resource-group       = azurerm_resource_group.cdnprofiles.name
   dns-resource-group       = azurerm_resource_group.dnszones.name
+  stg-resource-group       = "RG-WhiteFam-UKS"
   mx-records               = ["mattandjen-co-uk.mail.protection.outlook.com"]
   domain-name              = azurerm_dns_zone.mattandjen-co-uk.name
   depends_on               = [azurerm_resource_group.cdnprofiles, azurerm_resource_group.dnszones]
   REPORTING_EMAIL          = "tls-reports@matthewjwhite.co.uk"
   resource_prefix          = "maj"
-  stg-resource-group       = "RG-WhiteFam-UKS"
+  
   tags                     = local.tags
 }
 
