@@ -1,6 +1,9 @@
 resource "azurerm_dns_zone" "matthewjwhite-co-uk" {
-  name                = "testmatthewjwhite.co.uk"
+  name                = "matthewjwhite.co.uk"
   resource_group_name = azurerm_resource_group.dnszones.name
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 module "mjw-records" {

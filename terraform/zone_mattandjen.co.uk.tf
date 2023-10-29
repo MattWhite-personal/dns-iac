@@ -1,11 +1,14 @@
-resource "azurerm_dns_zone" "tftest" {
-  name                = "terraformtest.mattandjen.co.uk"
+resource "azurerm_dns_zone" "mattandjen-co-uk" {
+  name                = "mattandjen.co.uk"
   resource_group_name = azurerm_resource_group.dnszones.name
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 module "maj-records" {
   source       = "./module/dnsrecords"
-  zone_name    = azurerm_dns_zone.tftest.name
+  zone_name    = azurerm_dns_zone.mattandjen-co-uk.name
   rg_name      = azurerm_resource_group.dnszones.name
   a-records    = []
   aaaa-records = []
@@ -93,25 +96,7 @@ module "maj-records" {
       records = [
         {
           preference = 0
-          exchange   = "test"
-        },
-        {
-          preference = 5
-          exchange   = "test2"
-        }
-      ]
-    },
-    {
-      name = "test"
-      ttl  = 300
-      records = [
-        {
-          preference = 0
-          exchange   = "test"
-        },
-        {
-          preference = 5
-          exchange   = "test2.domain.com"
+          exchange   = "mattandjen-co-uk.mail.protection.outlook.com"
         }
       ]
     }
@@ -135,18 +120,6 @@ module "maj-records" {
       ]
     },
     {
-      name = "_mta-sts",
-      records = [
-        "v=STSv1; id=202112231408"
-      ]
-    },
-    {
-      name = "_smtp._tls",
-      records = [
-        "v=TLSRPTv1; rua=mailto:tls-reports@matthewjwhite.co.uk"
-      ]
-    },
-    {
       name = "asuid.honeymoon",
       records = [
         "785BB65719041BA0A0ED39A14A41CC881653B01532783F9507B0C31FF2F54432"
@@ -158,17 +131,17 @@ module "maj-records" {
         "785BB65719041BA0A0ED39A14A41CC881653B01532783F9507B0C31FF2F54432"
       ]
     }
-
   ]
 
 }
-/*
+
 module "maj-mtasts" {
   source                   = "./module/mtasts"
   use-existing-cdn-profile = true
   existing-cdn-profile     = azurerm_cdn_profile.cdm-mta-sts.name
-  resource_group           = azurerm_resource_group.cdnprofiles.name
-  mx-records               = module.maj-records.mx-records.exchange
-  domain-name              = azurerm_dns_zone.matthewjwhite-co-uk.name
+  cdn-resource-group       = azurerm_resource_group.cdnprofiles.name
+  dns-resource-group       = azurerm_resource_group.dnszones.name
+  mx-records               = ["mattandjen-co-uk.mail.protection.outlook.com"]
+  domain-name              = azurerm_dns_zone.mattandjen-co-uk.name
+  depends_on = [ azurerm_resource_group.cdnprofiles, azurerm_resource_group.dnszones ]
 }
-*/
