@@ -1,7 +1,7 @@
 resource "azurerm_dns_zone" "matthewjwhite-co-uk" {
   name                = "matthewjwhite.co.uk"
   resource_group_name = azurerm_resource_group.dnszones.name
-  tags = local.tags
+  tags                = local.tags
   lifecycle {
     prevent_destroy = true
   }
@@ -11,19 +11,34 @@ module "mjw-records" {
   source    = "./module/dnsrecords"
   zone_name = azurerm_dns_zone.matthewjwhite-co-uk.name
   rg_name   = azurerm_resource_group.dnszones.name
-  tags = local.tags
-  mx-records = [
+  tags      = local.tags
+
+
+
+  a-records = [
     {
-      name = "@"
-      ttl  = 3600
-      records = [
-        {
-          preference = 0
-          exchange   = "matthewjwhite-co-uk.mail.protection.outlook.com."
-        }
-      ]
+      name    = "ha",
+      records = ["90.196.227.99"],
+      isAlias = false
+    },
+    {
+      name    = "localhost",
+      records = ["127.0.0.1"],
+      isAlias = false
+    },
+    {
+      name    = "mail",
+      records = ["81.174.249.251"],
+      isAlias = false
+    },
+    {
+      name    = "vpn",
+      records = ["5.64.45.6"],
+      ttl     = 300
+      isAlias = false
     }
   ]
+  aaaa-records = []
   caa-records = [
     {
       name = "@"
@@ -56,7 +71,7 @@ module "mjw-records" {
     {
       name    = "d7f095024217c24089a3adf793728469",
       record  = "verify.bing.com.",
-      ttl = 600
+      ttl     = 600
       isAlias = false
     },
     {
@@ -126,6 +141,20 @@ module "mjw-records" {
     }
 
   ]
+  mx-records = [
+    {
+      name = "@"
+      ttl  = 3600
+      records = [
+        {
+          preference = 0
+          exchange   = "matthewjwhite-co-uk.mail.protection.outlook.com."
+        }
+      ]
+    }
+  ]
+  ptr-records = []
+  srv-records = []
   txt-records = [
     {
       name    = "_dmarc",
@@ -154,33 +183,6 @@ module "mjw-records" {
       ttl = 600
     }
   ]
-  a-records = [
-    {
-      name    = "ha",
-      records = ["90.196.227.99"],
-      isAlias = false
-    },
-    {
-      name    = "localhost",
-      records = ["127.0.0.1"],
-      isAlias = false
-    },
-    {
-      name    = "mail",
-      records = ["81.174.249.251"],
-      isAlias = false
-    },
-    {
-      name    = "vpn",
-      records = ["5.64.45.6"],
-      ttl     = 300
-      isAlias = false
-    }
-
-  ]
-  aaaa-records = []
-  srv-records  = []
-  ptr-records  = []
 }
 /*
 module "mjw-mtasts" {
