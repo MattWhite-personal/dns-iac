@@ -1,7 +1,7 @@
 resource "azurerm_dns_zone" "tonyandlizwhite-co-uk" {
   name                = "tonyandlizwhite.co.uk"
   resource_group_name = azurerm_resource_group.dnszones.name
-  tags = local.tags
+  tags                = local.tags
   lifecycle {
     prevent_destroy = true
   }
@@ -11,7 +11,7 @@ module "tlw-records" {
   source       = "./module/dnsrecords"
   zone_name    = azurerm_dns_zone.tonyandlizwhite-co-uk.name
   rg_name      = azurerm_resource_group.dnszones.name
-  tags = local.tags
+  tags         = local.tags
   a-records    = []
   aaaa-records = []
   caa-records  = []
@@ -78,16 +78,18 @@ module "tlw-records" {
   ]
 }
 
-/*
+
 module "tlw-mtasts" {
   source                   = "./module/mtasts"
   use-existing-cdn-profile = true
   existing-cdn-profile     = azurerm_cdn_profile.cdm-mta-sts.name
   cdn-resource-group       = azurerm_resource_group.cdnprofiles.name
   dns-resource-group       = azurerm_resource_group.dnszones.name
+  stg-resource-group       = "RG-WhiteFam-UKS"
   mx-records               = ["tonyandlizwhite-co-uk.mail.protection.outlook.com"]
   domain-name              = azurerm_dns_zone.tonyandlizwhite-co-uk.name
   depends_on               = [azurerm_resource_group.cdnprofiles, azurerm_resource_group.dnszones]
   REPORTING_EMAIL          = "tls-reports@matthewjwhite.co.uk"
+  tags                     = local.tags
+  resource_prefix          = "tlw"
 }
-*/
