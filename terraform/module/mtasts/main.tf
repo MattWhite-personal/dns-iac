@@ -142,6 +142,6 @@ resource "azurerm_dns_txt_record" "smtp-tls" {
   tags                = var.tags
 
   record {
-    value = "v=TLSRPTv1; rua=${local.tls_rpt_email}"
+    value = "v=TLSRPTv1; rua=mailto:${local.tls_rpt_email}"
   }
 }
