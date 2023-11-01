@@ -8,7 +8,7 @@ terraform {
   backend "azurerm" {
     storage_account_name = "stwhitefamterraform"
     container_name = "tfstate"
-    key            = "terraform.tfstate"
+    key            = "dns-iac.tfstate"
   }
 }
 provider "azurerm" {
