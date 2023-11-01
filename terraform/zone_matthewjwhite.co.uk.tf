@@ -17,6 +17,12 @@ module "mjw-records" {
 
   a-records = [
     {
+      name       = "@"
+      isAlias    = true
+      resourceID = data.terraform_remote_state.web-server.outputs.mjw-pip
+      ttl        = 60
+    },
+    {
       name    = "ha",
       records = ["90.196.227.99"],
       isAlias = false
