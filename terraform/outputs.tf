@@ -1,5 +1,5 @@
 output "privatezone-keyvault" {
-  value = azurerm_private_dns_zone.keyvault.id
+  value = azurerm_private_dns_zone.keyvault.name
 }
 
 output "rg-dnszones" {
