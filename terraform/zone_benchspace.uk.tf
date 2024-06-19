@@ -104,7 +104,8 @@ module "bs-uk-records" {
       name = "@",
       records = [
         "MS=ms19634485",
-        "v=spf1 include:spf.protection.outlook.com -all"
+        "v=spf1 include:spf.protection.outlook.com -all",
+        "google-site-verification=aSyAxVfYVIAjr5Kj-WHR6zzhvaVZibiWNER6KQvBSxc"
       ]
     }
   ]
