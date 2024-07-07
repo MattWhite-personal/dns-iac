@@ -1,11 +1,11 @@
 variable "zone_name" {
   description = "Name of the zone add to records to"
-  type = string
+  type        = string
 }
 
 variable "rg_name" {
   description = "Name of the resource group to add the records"
-  type = string
+  type        = string
 }
 
 variable "a-records" {
@@ -72,9 +72,9 @@ variable "mx-records" {
 variable "ptr-records" {
   description = "PTR records to attach to the domain"
   type = list(object({
-    name       = string
-    ttl        = optional(number)
-    records    = list(string)
+    name    = string
+    ttl     = optional(number)
+    records = list(string)
   }))
   default = []
 }
@@ -83,12 +83,12 @@ variable "srv-records" {
   description = "SRV records for the domain"
   type = list(object({
     name = string
-    ttl = optional(number)
+    ttl  = optional(number)
     records = list(object({
       priority = number
       weight   = number
-      port = number
-      target = string
+      port     = number
+      target   = string
     }))
   }))
 }

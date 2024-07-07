@@ -7,5 +7,5 @@ output "privatezone-keyvault-id" {
 }
 
 output "rg-dnszones" {
-    value = azurerm_resource_group.dnszones.name
+  value = azurerm_resource_group.dnszones.name
 }

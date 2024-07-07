@@ -124,5 +124,5 @@ module "bs-co-mtasts" {
   REPORTING_EMAIL          = "tls-reports@matthewjwhite.co.uk"
   stg-resource-group       = "RG-WhiteFam-UKS"
   resource_prefix          = "bsco"
-  tags = local.tags
+  tags                     = local.tags
 }

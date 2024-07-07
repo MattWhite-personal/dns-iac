@@ -42,23 +42,23 @@ variable "cdn-resource-group" {
 }
 
 variable "stg-resource-group" {
-  type = string
+  type        = string
   description = "resource group thta contains existing resources"
 }
 
 variable "use-existing-cdn-profile" {
-  type = bool
+  type        = bool
   description = "true: have the module create a cdn profile per domain, false: supply one as a variable"
 }
 
 variable "existing-cdn-profile" {
-  type = string
+  type        = string
   description = "CDN Profile to use if use-existing-cdn-profile is true"
 }
 variable "resource_prefix" {
-  type = string
+  type        = string
   description = "Prefix to use on resources"
-  
+
 }
 variable "tags" {
   description = "Azure Resource tags to be added to all resources"

@@ -70,6 +70,11 @@ module "bs-uk-records" {
       isAlias = false
     },
     {
+      name    = "rmdgz9dlw9pjf6pw7x3l",
+      record  = "verify.squarespace.com",
+      isAlias = false
+    },
+    {
       name    = "selector1._domainkey",
       record  = "selector1-benchspace-uk._domainkey.objectatelier.onmicrosoft.com",
       isAlias = false
