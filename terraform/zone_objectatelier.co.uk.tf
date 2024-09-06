@@ -15,7 +15,7 @@ module "oa-records" {
   a-records = [
     {
       name    = "@",
-      records = ["51.104.28.83"],
+      records = ["198.185.159.144", "198.185.159.145", "198.49.23.144", "198.49.23.145"],
       isAlias = false
       ttl     = 60
     }
@@ -107,7 +107,13 @@ module "oa-records" {
     },
     {
       name    = "www",
-      record  = "objectatelier.azurewebsites.net",
+      record  = "ext-cust.squarespace.com",
+      isAlias = false
+      ttl     = 60
+    },
+    {
+      name    = "b6pkm4fsxc9mfppjgf3a",
+      record  = "verify.squarespace.com",
       isAlias = false
       ttl     = 60
     }
