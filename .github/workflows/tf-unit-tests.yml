@@ -45,9 +45,9 @@ jobs:
         output_file_path: console,results.sarif
 
     # Upload results to GitHub Advanced Security
-    - name: Upload SARIF file
-      if: success() || failure()
-      uses: github/codeql-action/upload-sarif@v3
-      with:
-        sarif_file: results.sarif
-        category: checkov
+    #- name: Upload SARIF file
+    #  if: success() || failure()
+    #  uses: github/codeql-action/upload-sarif@v3
+    #  with:
+    #    sarif_file: results.sarif
+    #    category: checkov
