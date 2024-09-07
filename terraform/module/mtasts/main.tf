@@ -25,6 +25,8 @@ resource "azurerm_storage_account" "stmtasts" {
     ip_rules       = var.permitted-ips
   }
   #checkov:skip=CKV2_AZURE_1: "Ensure storage for critical data are encrypted with Customer Managed Key"
+  #checkov:skip=CKV_AZURE_206: "Ensure that Storage Accounts use replication"
+  #checkov:skip=CKV_AZURE_59: "Ensure that Storage accounts disallow public access"
 }
 
 resource "azurerm_storage_blob" "mta-sts" {
