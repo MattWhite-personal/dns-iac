@@ -16,6 +16,12 @@ env:
   ARM_CLIENT_ID: "${{ secrets.AZURE_CLIENT_ID }}"
   ARM_SUBSCRIPTION_ID: "${{ secrets.AZURE_SUBSCRIPTION_ID }}"
   ARM_TENANT_ID: "${{ secrets.AZURE_TENANT_ID }}"
+  ARM_ACCESS_KEY: "${{ secrets.AZURE_ACCESS_KEY }}"
+  TF_VAR_client_id: "${{ secrets.AZURE_CLIENT_ID }}"
+  TF_VAR_client_secret: "${{ secrets.AZURE_CLIENT_SECRET }}"
+  TF_VAR_tenant_id: "${{ secrets.AZURE_TENANT_ID }}"
+  TF_VAR_subscription_id: "${{ secrets.AZURE_SUBSCRIPTION_ID }}"
+  TF_VAR_storage_account: "stwhitefamterraform"
 
 jobs:
   terraform-plan:
