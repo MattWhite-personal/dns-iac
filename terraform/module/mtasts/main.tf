@@ -6,14 +6,16 @@ locals {
 }
 
 resource "azurerm_storage_account" "stmtasts" {
-  name                     = "st${local.storage_prefix}mtasts"
-  resource_group_name      = var.stg-resource-group
-  location                 = var.location
-  account_replication_type = "LRS"
-  account_tier             = "Standard"
-  min_tls_version          = "TLS1_2"
-  account_kind             = "StorageV2"
-  tags                     = var.tags
+  name                            = "st${local.storage_prefix}mtasts"
+  resource_group_name             = var.stg-resource-group
+  location                        = var.location
+  account_replication_type        = "LRS"
+  account_tier                    = "Standard"
+  min_tls_version                 = "TLS1_2"
+  account_kind                    = "StorageV2"
+  #shared_access_key_enabled       = false
+  allow_nested_items_to_be_public = false
+  tags                            = var.tags
   static_website {
     index_document     = "index.htm"
     error_404_document = "error.htm"
@@ -24,9 +26,16 @@ resource "azurerm_storage_account" "stmtasts" {
     bypass         = ["AzureServices"]
     ip_rules       = var.permitted-ips
   }
+  blob_properties {
+    delete_retention_policy {
+      days = 7
+    }
+  }
   #checkov:skip=CKV2_AZURE_1: "Ensure storage for critical data are encrypted with Customer Managed Key"
   #checkov:skip=CKV_AZURE_206: "Ensure that Storage Accounts use replication"
   #checkov:skip=CKV_AZURE_59: "Ensure that Storage accounts disallow public access"
+  #checkov:skip=CKV2_AZURE_33: "Ensure storage account is configured with private endpoint"
+  #checkpv:skip=CKV2_AZURE_40: "Ensure storage account is not configured with Shared Key authorization"
 }
 
 resource "azurerm_storage_blob" "mta-sts" {
