@@ -125,5 +125,5 @@ module "bs-co-mtasts" {
   stg-resource-group       = "RG-WhiteFam-UKS"
   resource-prefix          = "bsco"
   tags                     = local.tags
-  permitted-ips            = var.permitted_ips
+  permitted-ips            = local.permitted_ips
 }

@@ -92,5 +92,6 @@ module "tlw-mtasts" {
   reporting-email          = "tls-reports@matthewjwhite.co.uk"
   tags                     = local.tags
   resource-prefix          = "tlw"
-  permitted-ips            = var.permitted_ips
+  permitted-ips            = local.permitted_ips
+  mtastsmode               = "testing"
 }

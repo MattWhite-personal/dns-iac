@@ -129,5 +129,5 @@ module "bs-uk-mtasts" {
   stg-resource-group       = "RG-WhiteFam-UKS"
   resource-prefix          = "bsuk"
   tags                     = local.tags
-  permitted-ips            = var.permitted_ips
+  permitted-ips            = local.permitted_ips
 }

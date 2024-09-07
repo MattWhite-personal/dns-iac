@@ -141,7 +141,7 @@ module "maj-mtasts" {
   depends_on               = [azurerm_resource_group.cdnprofiles, azurerm_resource_group.dnszones]
   reporting-email          = "tls-reports@matthewjwhite.co.uk"
   resource-prefix          = "maj"
-  permitted-ips            = var.permitted_ips
+  permitted-ips            = local.permitted_ips
   tags                     = local.tags
 }
 
