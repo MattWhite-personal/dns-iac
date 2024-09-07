@@ -30,7 +30,7 @@ resource "azurerm_storage_account" "stmtasts" {
       days = 7
     }
   }
-  
+
   #checkov:skip=CKV_AZURE_33: "Ensure Storage logging is enabled for Queue service for read, write and delete requests"
   #checkov:skip=CKV_AZURE_43: "Ensure Storage Accounts adhere to the naming rules"
   #checkov:skip=CKV_AZURE_59: "Ensure that Storage accounts disallow public access"
