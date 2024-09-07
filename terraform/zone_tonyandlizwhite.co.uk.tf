@@ -89,7 +89,8 @@ module "tlw-mtasts" {
   mx-records               = ["tonyandlizwhite-co-uk.mail.protection.outlook.com"]
   domain-name              = azurerm_dns_zone.tonyandlizwhite-co-uk.name
   depends_on               = [azurerm_resource_group.cdnprofiles, azurerm_resource_group.dnszones]
-  REPORTING_EMAIL          = "tls-reports@matthewjwhite.co.uk"
+  reporting-email          = "tls-reports@matthewjwhite.co.uk"
   tags                     = local.tags
-  resource_prefix          = "tlw"
+  resource-prefix          = "tlw"
+  permitted-ips            = var.permitted_ips
 }

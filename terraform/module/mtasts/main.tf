@@ -1,24 +1,43 @@
 locals {
-  tls_rpt_email = length(split("@", var.REPORTING_EMAIL)) == 2 ? var.REPORTING_EMAIL : "${var.REPORTING_EMAIL}@${var.domain-name}"
-  policyhash    = formatdate("YYYYMMDDhhmmss", timestamp())
-  cdn_prefix    = "cdn${var.resource_prefix}mtasts"
-  //lower(replace(var.domain-name, "/\\W|_|\\s/", "-"))
-  storage_prefix = coalesce(var.resource_prefix, substr(replace(local.cdn_prefix, "-", ""), 0, 16))
+  tls_rpt_email  = length(split("@", var.reporting-email)) == 2 ? var.reporting-email : "${var.reporting-email}@${var.domain-name}"
+  policyhash     = formatdate("YYYYMMDDhhmmss", timestamp())
+  cdn-prefix     = "cdn${var.resource-prefix}mtasts"
+  storage_prefix = coalesce(var.resource-prefix, substr(replace(local.cdn-prefix, "-", ""), 0, 16))
 }
 
 resource "azurerm_storage_account" "stmtasts" {
-  name                     = "st${local.storage_prefix}mtasts"
-  resource_group_name      = var.stg-resource-group
-  location                 = var.location
-  account_replication_type = "LRS"
-  account_tier             = "Standard"
-  min_tls_version          = "TLS1_2"
-  account_kind             = "StorageV2"
-  tags                     = var.tags
+  name                            = "st${local.storage_prefix}mtasts"
+  resource_group_name             = var.stg-resource-group
+  location                        = var.location
+  account_replication_type        = "LRS"
+  account_tier                    = "Standard"
+  min_tls_version                 = "TLS1_2"
+  account_kind                    = "StorageV2"
+  allow_nested_items_to_be_public = false
+  public_network_access_enabled   = true
+  tags                            = var.tags
   static_website {
     index_document     = "index.htm"
     error_404_document = "error.htm"
   }
+  network_rules {
+    default_action = "Deny"
+    bypass         = ["AzureServices"]
+    ip_rules       = var.permitted-ips
+  }
+  blob_properties {
+    delete_retention_policy {
+      days = 7
+    }
+  }
+  #checkov:skip=CKV2_AZURE_1: "Ensure storage for critical data are encrypted with Customer Managed Key"
+  #checkov:skip=CKV_AZURE_206: "Ensure that Storage Accounts use replication"
+  #checkov:skip=CKV_AZURE_59: "Ensure that Storage accounts disallow public access"
+  #checkov:skip=CKV2_AZURE_33: "Ensure storage account is configured with private endpoint"
+  #checkov:skip=CKV_AZURE_33: "Ensure Storage logging is enabled for Queue service for read, write and delete requests"
+  #checkov:skip=CKV2_AZURE_40: "Ensure storage account is not configured with Shared Key authorization"
+  #checkov:skip=CKV2_AZURE_41: "Ensure storage account is configured with SAS expiration policy"
+  #checkov:skip=CKV_AZURE_43: "Ensure Storage Accounts adhere to the naming rules"
 }
 
 resource "azurerm_storage_blob" "mta-sts" {
@@ -30,7 +49,7 @@ resource "azurerm_storage_blob" "mta-sts" {
   source_content         = <<EOF
 version: STSv1
 mode: ${var.mtastsmode}
-${join("", formatlist("mx: %s\n", var.mx-records))}max_age: ${var.MAX_AGE}
+${join("", formatlist("mx: %s\n", var.mx-records))}max_age: ${var.max-age}
   EOF
 }
 
@@ -54,7 +73,7 @@ resource "azurerm_storage_blob" "error" {
 
 resource "azurerm_cdn_profile" "cdnmtasts" {
   count               = var.use-existing-cdn-profile ? 0 : 1
-  name                = "cdn-${local.cdn_prefix}"
+  name                = "cdn-${local.cdn-prefix}"
   location            = "global"
   resource_group_name = var.cdn-resource-group
   sku                 = "Standard_Microsoft"
@@ -62,11 +81,12 @@ resource "azurerm_cdn_profile" "cdnmtasts" {
 }
 
 resource "azurerm_cdn_endpoint" "mtastsendpoint" {
-  name                = local.cdn_prefix
+  name                = local.cdn-prefix
   profile_name        = var.use-existing-cdn-profile ? var.existing-cdn-profile : azurerm_cdn_profile.cdnmtasts[0].name
   location            = "global"
   resource_group_name = var.cdn-resource-group
   tags                = var.tags
+  is_http_allowed     = false
 
   origin {
     name      = "mtasts-endpoint"
@@ -92,7 +112,7 @@ resource "azurerm_cdn_endpoint" "mtastsendpoint" {
 }
 
 resource "azurerm_cdn_endpoint_custom_domain" "mtastscustomdomain" {
-  name            = local.cdn_prefix
+  name            = local.cdn-prefix
   cdn_endpoint_id = azurerm_cdn_endpoint.mtastsendpoint.id
   host_name       = "${azurerm_dns_cname_record.mta-sts.name}.${azurerm_dns_cname_record.mta-sts.zone_name}"
 

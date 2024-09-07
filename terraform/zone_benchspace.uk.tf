@@ -125,8 +125,9 @@ module "bs-uk-mtasts" {
   mx-records               = ["benchspace-uk.mail.protection.outlook.com"]
   domain-name              = azurerm_dns_zone.benchspace-uk.name
   depends_on               = [azurerm_resource_group.cdnprofiles, azurerm_resource_group.dnszones]
-  REPORTING_EMAIL          = "tls-reports@matthewjwhite.co.uk"
+  reporting-email          = "tls-reports@matthewjwhite.co.uk"
   stg-resource-group       = "RG-WhiteFam-UKS"
-  resource_prefix          = "bsuk"
+  resource-prefix          = "bsuk"
   tags                     = local.tags
+  permitted-ips            = var.permitted_ips
 }

@@ -98,7 +98,8 @@ module "swd-mtasts" {
   mx-records               = ["simonwhitedesign-co-uk.mail.protection.outlook.com"]
   domain-name              = azurerm_dns_zone.simonwhitedesign-co-uk.name
   depends_on               = [azurerm_resource_group.cdnprofiles, azurerm_resource_group.dnszones]
-  REPORTING_EMAIL          = "tls-reports@matthewjwhite.co.uk"
-  resource_prefix          = "swd"
+  reporting-email          = "tls-reports@matthewjwhite.co.uk"
+  resource-prefix          = "swd"
   tags                     = local.tags
+  permitted-ips            = var.permitted_ips
 }
