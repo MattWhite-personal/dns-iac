@@ -75,6 +75,7 @@ resource "azurerm_cdn_endpoint" "mtastsendpoint" {
   location            = "global"
   resource_group_name = var.cdn-resource-group
   tags                = var.tags
+  is_http_allowed     = false
 
   origin {
     name      = "mtasts-endpoint"
