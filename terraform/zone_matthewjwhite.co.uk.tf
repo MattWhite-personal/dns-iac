@@ -201,8 +201,9 @@ module "mjw-mtasts" {
   mx-records               = ["matthewjwhite-co-uk.mail.protection.outlook.com"]
   domain-name              = azurerm_dns_zone.matthewjwhite-co-uk.name
   depends_on               = [azurerm_resource_group.cdnprofiles, azurerm_resource_group.dnszones]
-  REPORTING_EMAIL          = "tls-reports@matthewjwhite.co.uk"
-  resource_prefix          = "mjw"
+  reporting-email          = "tls-reports@matthewjwhite.co.uk"
+  resource-prefix          = "mjw"
   tags                     = local.tags
+  permitted-ips            = var.permitted_ips
 }
 

@@ -139,9 +139,9 @@ module "maj-mtasts" {
   mx-records               = ["mattandjen-co-uk.mail.protection.outlook.com"]
   domain-name              = azurerm_dns_zone.mattandjen-co-uk.name
   depends_on               = [azurerm_resource_group.cdnprofiles, azurerm_resource_group.dnszones]
-  REPORTING_EMAIL          = "tls-reports@matthewjwhite.co.uk"
-  resource_prefix          = "maj"
-
-  tags = local.tags
+  reporting-email          = "tls-reports@matthewjwhite.co.uk"
+  resource-prefix          = "maj"
+  permitted-ips            = var.permitted_ips
+  tags                     = local.tags
 }
 

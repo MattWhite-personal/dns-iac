@@ -1,9 +1,8 @@
 locals {
-  tls_rpt_email = length(split("@", var.REPORTING_EMAIL)) == 2 ? var.REPORTING_EMAIL : "${var.REPORTING_EMAIL}@${var.domain-name}"
+  tls_rpt_email = length(split("@", var.reporting-email)) == 2 ? var.reporting-email : "${var.reporting-email}@${var.domain-name}"
   policyhash    = formatdate("YYYYMMDDhhmmss", timestamp())
-  cdn_prefix    = "cdn${var.resource_prefix}mtasts"
-  //lower(replace(var.domain-name, "/\\W|_|\\s/", "-"))
-  storage_prefix = coalesce(var.resource_prefix, substr(replace(local.cdn_prefix, "-", ""), 0, 16))
+  cdn-prefix    = "cdn${var.resource-prefix}mtasts"
+  storage_prefix = coalesce(var.resource-prefix, substr(replace(local.cdn-prefix, "-", ""), 0, 16))
 }
 
 resource "azurerm_storage_account" "stmtasts" {
@@ -19,6 +18,12 @@ resource "azurerm_storage_account" "stmtasts" {
     index_document     = "index.htm"
     error_404_document = "error.htm"
   }
+  public_network_access_enabled = true
+  network_rules {
+    default_action = "Deny"
+    bypass         = ["AzureServices"]
+    ip_rules       = var.permitted-ips
+  }
 }
 
 resource "azurerm_storage_blob" "mta-sts" {
@@ -30,7 +35,7 @@ resource "azurerm_storage_blob" "mta-sts" {
   source_content         = <<EOF
 version: STSv1
 mode: ${var.mtastsmode}
-${join("", formatlist("mx: %s\n", var.mx-records))}max_age: ${var.MAX_AGE}
+${join("", formatlist("mx: %s\n", var.mx-records))}max_age: ${var.max-age}
   EOF
 }
 
@@ -54,7 +59,7 @@ resource "azurerm_storage_blob" "error" {
 
 resource "azurerm_cdn_profile" "cdnmtasts" {
   count               = var.use-existing-cdn-profile ? 0 : 1
-  name                = "cdn-${local.cdn_prefix}"
+  name                = "cdn-${local.cdn-prefix}"
   location            = "global"
   resource_group_name = var.cdn-resource-group
   sku                 = "Standard_Microsoft"
@@ -62,7 +67,7 @@ resource "azurerm_cdn_profile" "cdnmtasts" {
 }
 
 resource "azurerm_cdn_endpoint" "mtastsendpoint" {
-  name                = local.cdn_prefix
+  name                = local.cdn-prefix
   profile_name        = var.use-existing-cdn-profile ? var.existing-cdn-profile : azurerm_cdn_profile.cdnmtasts[0].name
   location            = "global"
   resource_group_name = var.cdn-resource-group
@@ -92,7 +97,7 @@ resource "azurerm_cdn_endpoint" "mtastsendpoint" {
 }
 
 resource "azurerm_cdn_endpoint_custom_domain" "mtastscustomdomain" {
-  name            = local.cdn_prefix
+  name            = local.cdn-prefix
   cdn_endpoint_id = azurerm_cdn_endpoint.mtastsendpoint.id
   host_name       = "${azurerm_dns_cname_record.mta-sts.name}.${azurerm_dns_cname_record.mta-sts.zone_name}"
 

@@ -14,7 +14,7 @@ variable "mtastsmode" {
   description = "MTA-STS policy 'mode'. Either 'testing' or 'enforce'."
 }
 
-variable "MAX_AGE" {
+variable "max-age" {
   type        = string
   default     = "86400"
   description = "MTA-STS max_age. Time in seconds the policy should be cached. Default is 1 day"
@@ -25,7 +25,7 @@ variable "mx-records" {
   description = "list of 'mx' records that should be included in mta-sts policy"
 }
 
-variable "REPORTING_EMAIL" {
+variable "reporting-email" {
   type        = string
   default     = "tls-rpt"
   description = "(Optional) Email to use for TLS-RPT reporting."
@@ -55,11 +55,17 @@ variable "existing-cdn-profile" {
   type        = string
   description = "CDN Profile to use if use-existing-cdn-profile is true"
 }
-variable "resource_prefix" {
+variable "resource-prefix" {
   type        = string
   description = "Prefix to use on resources"
 
 }
 variable "tags" {
   description = "Azure Resource tags to be added to all resources"
+}
+
+variable "permitted-ips" {
+  description = "list of IP addresses that can access storage accounts"
+  sensitive = false
+  type = list(string)
 }

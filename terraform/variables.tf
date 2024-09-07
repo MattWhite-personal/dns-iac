@@ -26,3 +26,9 @@ variable "storage_account" {
   description = "name of azure storage account hosting state"
 
 }
+
+variable "permitted_ips" {
+  type = list(string)
+  description = "List of IPs that can access storage accounts"
+  sensitive = false
+}
