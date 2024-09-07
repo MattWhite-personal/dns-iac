@@ -66,6 +66,6 @@ variable "tags" {
 
 variable "permitted-ips" {
   description = "list of IP addresses that can access storage accounts"
-  sensitive = false
-  type = list(string)
+  sensitive   = false
+  type        = list(string)
 }

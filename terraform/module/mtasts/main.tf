@@ -1,7 +1,7 @@
 locals {
-  tls_rpt_email = length(split("@", var.reporting-email)) == 2 ? var.reporting-email : "${var.reporting-email}@${var.domain-name}"
-  policyhash    = formatdate("YYYYMMDDhhmmss", timestamp())
-  cdn-prefix    = "cdn${var.resource-prefix}mtasts"
+  tls_rpt_email  = length(split("@", var.reporting-email)) == 2 ? var.reporting-email : "${var.reporting-email}@${var.domain-name}"
+  policyhash     = formatdate("YYYYMMDDhhmmss", timestamp())
+  cdn-prefix     = "cdn${var.resource-prefix}mtasts"
   storage_prefix = coalesce(var.resource-prefix, substr(replace(local.cdn-prefix, "-", ""), 0, 16))
 }
 
