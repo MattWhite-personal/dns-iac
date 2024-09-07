@@ -26,6 +26,9 @@ jobs:
       ARM_SKIP_PROVIDER_REGISTRATION: true
     outputs:
       tfplanExitCode: ${{ steps.tf-plan.outputs.exitcode }}
+    defaults:
+      run:
+        working-directory: ./terraform
 
     steps:
     # Checkout the repository to the GitHub Actions runner
