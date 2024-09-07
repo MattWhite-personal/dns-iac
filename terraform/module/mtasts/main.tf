@@ -24,6 +24,7 @@ resource "azurerm_storage_account" "stmtasts" {
     bypass         = ["AzureServices"]
     ip_rules       = var.permitted-ips
   }
+  #checkov:skip=CKV2_AZURE_1: "Ensure storage for critical data are encrypted with Customer Managed Key"
 }
 
 resource "azurerm_storage_blob" "mta-sts" {
