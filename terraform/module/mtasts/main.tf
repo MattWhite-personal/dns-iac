@@ -13,14 +13,13 @@ resource "azurerm_storage_account" "stmtasts" {
   account_tier                    = "Standard"
   min_tls_version                 = "TLS1_2"
   account_kind                    = "StorageV2"
-  #shared_access_key_enabled       = false
   allow_nested_items_to_be_public = false
+  public_network_access_enabled   = true
   tags                            = var.tags
   static_website {
     index_document     = "index.htm"
     error_404_document = "error.htm"
   }
-  public_network_access_enabled = true
   network_rules {
     default_action = "Deny"
     bypass         = ["AzureServices"]
