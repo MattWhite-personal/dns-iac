@@ -9,14 +9,16 @@ terraform {
     storage_account_name = "stwhitefamterraform"
     container_name       = "tfstate"
     key                  = "dns-iac.tfstate"
+    use_oidc             = true
   }
 }
 provider "azurerm" {
 
-  subscription_id = var.subscription_id
-  tenant_id       = var.tenant_id
-  client_id       = var.client_id
-  client_secret   = var.client_secret
+  #  subscription_id = var.subscription_id
+  #  tenant_id       = var.tenant_id
+  #  client_id       = var.client_id
+  #  client_secret   = var.client_secret
+  use_oidc = true
   features {
 
   }
