@@ -30,14 +30,15 @@ resource "azurerm_storage_account" "stmtasts" {
       days = 7
     }
   }
-  #checkov:skip=CKV2_AZURE_1: "Ensure storage for critical data are encrypted with Customer Managed Key"
-  #checkov:skip=CKV_AZURE_206: "Ensure that Storage Accounts use replication"
-  #checkov:skip=CKV_AZURE_59: "Ensure that Storage accounts disallow public access"
-  #checkov:skip=CKV2_AZURE_33: "Ensure storage account is configured with private endpoint"
+  
   #checkov:skip=CKV_AZURE_33: "Ensure Storage logging is enabled for Queue service for read, write and delete requests"
+  #checkov:skip=CKV_AZURE_43: "Ensure Storage Accounts adhere to the naming rules"
+  #checkov:skip=CKV_AZURE_59: "Ensure that Storage accounts disallow public access"
+  #checkov:skip=CKV_AZURE_206: "Ensure that Storage Accounts use replication"
+  #checkov:skip=CKV2_AZURE_1: "Ensure storage for critical data are encrypted with Customer Managed Key"
+  #checkov:skip=CKV2_AZURE_33: "Ensure storage account is configured with private endpoint"
   #checkov:skip=CKV2_AZURE_40: "Ensure storage account is not configured with Shared Key authorization"
   #checkov:skip=CKV2_AZURE_41: "Ensure storage account is configured with SAS expiration policy"
-  #checkov:skip=CKV_AZURE_43: "Ensure Storage Accounts adhere to the naming rules"
 }
 
 resource "azurerm_storage_blob" "mta-sts" {
