@@ -29,6 +29,9 @@ resource "azurerm_storage_account" "stmtasts" {
     delete_retention_policy {
       days = 7
     }
+    container_delete_retention_policy {
+      days = 7
+    }
   }
 
   #checkov:skip=CKV_AZURE_33: "Ensure Storage logging is enabled for Queue service for read, write and delete requests"

@@ -119,7 +119,7 @@ module "bs-uk-records" {
 module "bs-uk-mtasts" {
   source                   = "./module/mtasts"
   use-existing-cdn-profile = true
-  existing-cdn-profile     = azurerm_cdn_profile.cdm-mta-sts.name
+  existing-cdn-profile     = azurerm_cdn_profile.cdn-mta-sts.name
   cdn-resource-group       = azurerm_resource_group.cdnprofiles.name
   dns-resource-group       = azurerm_resource_group.dnszones.name
   mx-records               = ["benchspace-uk.mail.protection.outlook.com"]
