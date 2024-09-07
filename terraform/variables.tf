@@ -27,8 +27,8 @@ variable "storage_account" {
 
 }
 
-variable "permitted_ips" {
-  type        = list(string)
-  description = "List of IPs that can access storage accounts"
-  sensitive   = false
-}
+#variable "permitted_ips" {
+#  type        = list(string)
+#  description = "List of IPs that can access storage accounts"
+#  sensitive   = false
+#}
