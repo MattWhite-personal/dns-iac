@@ -101,5 +101,5 @@ module "swd-mtasts" {
   reporting-email          = "tls-reports@matthewjwhite.co.uk"
   resource-prefix          = "swd"
   tags                     = local.tags
-  permitted-ips            = var.permitted_ips
+  permitted-ips            = local.permitted_ips
 }

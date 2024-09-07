@@ -204,6 +204,6 @@ module "mjw-mtasts" {
   reporting-email          = "tls-reports@matthewjwhite.co.uk"
   resource-prefix          = "mjw"
   tags                     = local.tags
-  permitted-ips            = var.permitted_ips
+  permitted-ips            = local.permitted_ips
 }
 

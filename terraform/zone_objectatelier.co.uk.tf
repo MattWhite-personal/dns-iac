@@ -177,6 +177,6 @@ module "oa-mtasts" {
   reporting-email          = "tls-reports@matthewjwhite.co.uk"
   tags                     = local.tags
   resource-prefix          = "oa"
-  permitted-ips            = var.permitted_ips
+  permitted-ips            = local.permitted_ips
 }
 
