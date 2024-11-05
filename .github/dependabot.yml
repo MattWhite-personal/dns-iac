@@ -10,7 +10,11 @@ updates:
     schedule:
       interval: "daily"
       time: "15:00"
+    assignees:
+      - "MattWhite-personal"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "daily"
+    assignees:
+      - "MattWhite-personal"
