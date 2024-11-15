@@ -15,6 +15,7 @@ resource "azurerm_storage_account" "stmtasts" {
   account_kind                    = "StorageV2"
   allow_nested_items_to_be_public = false
   public_network_access_enabled   = true
+  local_user_enabled = false
   tags                            = var.tags
   static_website {
     index_document     = "index.htm"
