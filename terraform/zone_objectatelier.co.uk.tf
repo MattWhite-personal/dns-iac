@@ -76,11 +76,6 @@ module "oa-records" {
       isAlias = false
     },
     {
-      name    = "newsite",
-      record  = "objectatelier.azurewebsites.net",
-      isAlias = false
-    },
-    {
       name    = "selector1-azurecomm-prod-net._domainkey",
       record  = "selector1-azurecomm-prod-net._domainkey.azurecomm.net",
       isAlias = false
@@ -140,10 +135,6 @@ module "oa-records" {
     },
     {
       name    = "asuid",
-      records = ["785BB65719041BA0A0ED39A14A41CC881653B01532783F9507B0C31FF2F54432"]
-    },
-    {
-      name    = "asuid.newsite",
       records = ["785BB65719041BA0A0ED39A14A41CC881653B01532783F9507B0C31FF2F54432"]
     },
     {
