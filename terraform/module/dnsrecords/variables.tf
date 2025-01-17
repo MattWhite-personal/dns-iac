@@ -72,9 +72,9 @@ variable "mx-records" {
 variable "ns-records" {
   description = "NS records to attach to the domain"
   type = list(object({
-    name       = string
-    ttl        = optional(number)
-    records    = list(string)
+    name    = string
+    ttl     = optional(number)
+    records = list(string)
   }))
   default = []
 }

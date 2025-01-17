@@ -84,7 +84,7 @@ resource "azurerm_dns_ns_record" "ns" {
   zone_name           = var.zone_name
   resource_group_name = var.rg_name
   ttl                 = coalesce(each.value["ttl"], var.ttl)
-  tags = var.tags
+  tags                = var.tags
 
   records = each.value["records"]
 }

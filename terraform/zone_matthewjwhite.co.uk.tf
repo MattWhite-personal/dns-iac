@@ -146,8 +146,8 @@ module "mjw-records" {
       isAlias = false
     },
     {
-      name = "dev",
-      record = data.terraform_remote_state.web-server.outputs.dev-swa
+      name    = "dev",
+      record  = data.terraform_remote_state.web-server.outputs.dev-swa
       isAlias = false
     }
 
@@ -167,12 +167,12 @@ module "mjw-records" {
   ns-records = [
     {
       name = "tfttest"
-      ttl = 300
+      ttl  = 300
       records = [
         "ns1-03.azure-dns.com.",
         "ns2-03.azure-dns.net.",
         "ns3-03.azure-dns.org.",
-"ns3-03.azure-dns.info."
+        "ns3-03.azure-dns.info."
       ]
     }
   ]
@@ -223,4 +223,3 @@ module "mjw-mtasts" {
   tags                     = local.tags
   permitted-ips            = local.permitted_ips
 }
-
