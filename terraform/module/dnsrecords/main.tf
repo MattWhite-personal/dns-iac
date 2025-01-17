@@ -76,6 +76,19 @@ resource "azurerm_dns_mx_record" "mx" {
   }
 }
 
+resource "azurerm_dns_ns_record" "ns" {
+  for_each = {
+    for record in var.ns-records : record.name => record
+  }
+  name                = each.value["name"]
+  zone_name           = var.zone_name
+  resource_group_name = var.rg_name
+  ttl                 = coalesce(each.value["ttl"], var.ttl)
+  tags                = var.tags
+
+  records = each.value["records"]
+}
+
 resource "azurerm_dns_ptr_record" "ptr" {
   for_each = {
     for record in var.ptr-records : record.name => record
