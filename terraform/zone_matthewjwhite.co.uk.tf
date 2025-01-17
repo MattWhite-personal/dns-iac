@@ -144,6 +144,11 @@ module "mjw-records" {
       name    = "www",
       record  = "matthewjwhite.co.uk.",
       isAlias = false
+    },
+    {
+      name = "dev",
+      record = data.terraform_remote_state.web-server.outputs.dev-swa
+      isAlias = false
     }
 
   ]
@@ -156,6 +161,18 @@ module "mjw-records" {
           preference = 0
           exchange   = "matthewjwhite-co-uk.mail.protection.outlook.com."
         }
+      ]
+    }
+  ]
+  ns-records = [
+    {
+      name = "tfttest"
+      ttl = 300
+      records = [
+        "ns1-03.azure-dns.com.",
+        "ns2-03.azure-dns.net.",
+        "ns3-03.azure-dns.org.",
+"ns3-03.azure-dns.info."
       ]
     }
   ]
