@@ -8,6 +8,10 @@ on:
     branches:
     - main
 
+defaults:
+  run:
+    working-directory: ./terraform
+
 #Special permissions required for OIDC authentication
 permissions:
   id-token: write
