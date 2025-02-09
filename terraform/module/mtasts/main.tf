@@ -22,9 +22,9 @@ resource "azurerm_storage_account" "stmtasts" {
     error_404_document = "error.htm"
   }
   network_rules {
-    default_action = "Deny"
-    bypass         = ["AzureServices"]
-    ip_rules       = var.permitted-ips
+    default_action = "Allow"
+    #bypass         = ["AzureServices"]
+    #ip_rules       = var.permitted-ips
   }
   blob_properties {
     delete_retention_policy {
