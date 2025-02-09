@@ -6,6 +6,7 @@ locals {
 }
 
 resource "azurerm_storage_account" "stmtasts" {
+  #checkov:skip=CKV_AZURE_35:The storage account can be publicly accessed
   name                            = "st${local.storage_prefix}mtasts"
   resource_group_name             = var.stg-resource-group
   location                        = var.location
