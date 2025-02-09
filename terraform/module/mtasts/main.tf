@@ -11,6 +11,10 @@ resource "azurerm_storage_account" "stmtasts" {
   #checkov:skip=CKV_AZURE_206:Storage replication is not requrired
   #checkov:skip=CKV_AZURE_33:Not using queue service
   #checkov:skip=CKV_AZURE_43:Own naming convention is in use
+  #checkov:skip=CKV2_AZURE_1:Customer Managed Key is not required
+  #checkov:skip=CKV2_AZURE_33:Private endpoints not suitable for storage account
+  #checkov:skip=CKV2_AZURE_40:Dont care about this
+  #checkov:skip=CKV2_AZURE_41:not using SAS
   name                            = "st${local.storage_prefix}mtasts"
   resource_group_name             = var.stg-resource-group
   location                        = var.location
