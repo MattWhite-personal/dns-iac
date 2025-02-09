@@ -7,6 +7,10 @@ locals {
 
 resource "azurerm_storage_account" "stmtasts" {
   #checkov:skip=CKV_AZURE_35:The storage account can be publicly accessed
+  #checkov:skip=CKV_AZURE_59:The storage account can be publicly accessed
+  #checkov:skip=CKV_AZURE_206:Storage replication is not requrired
+  #checkov:skip=CKV_AZURE_33:Not using queue service
+  #checkov:skip=CKV_AZURE_43:Own naming convention is in use
   name                            = "st${local.storage_prefix}mtasts"
   resource_group_name             = var.stg-resource-group
   location                        = var.location
