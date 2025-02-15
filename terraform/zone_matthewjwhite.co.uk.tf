@@ -172,7 +172,7 @@ module "mjw-records" {
         "ns1-03.azure-dns.com.",
         "ns2-03.azure-dns.net.",
         "ns3-03.azure-dns.org.",
-        "ns3-03.azure-dns.info."
+        "ns4-03.azure-dns.info."
       ]
     }
   ]
