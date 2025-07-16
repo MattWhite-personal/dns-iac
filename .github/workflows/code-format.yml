@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: ministryofjustice/github-actions/code-formatter@v18.6.0
+      - uses: ministryofjustice/github-actions/code-formatter@v19.0.0
         with:
           ignore-files: ""
         env:
