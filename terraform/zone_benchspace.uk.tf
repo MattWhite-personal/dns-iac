@@ -65,7 +65,7 @@ module "bs-uk-records" {
       isAlias = false
     },
     {
-      name    = "mmfw6d7aapdszmlkl4aa",
+      name    = "xnhpsdb2s9xczfbz23mp",
       record  = "verify.squarespace.com",
       isAlias = false
     },
