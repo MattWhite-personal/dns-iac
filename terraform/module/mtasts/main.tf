@@ -14,7 +14,6 @@ resource "azurerm_storage_account" "stmtasts" {
   #checkov:skip=CKV2_AZURE_1:Customer Managed Key is not required
   #checkov:skip=CKV2_AZURE_33:Private endpoints not suitable for storage account
   #checkov:skip=CKV2_AZURE_40:Dont care about this
-  #checkov:skip=CKV2_AZURE_41:not using SAS
   name                            = "st${local.storage_prefix}mtasts"
   resource_group_name             = var.stg-resource-group
   location                        = var.location
@@ -25,6 +24,7 @@ resource "azurerm_storage_account" "stmtasts" {
   allow_nested_items_to_be_public = false
   public_network_access_enabled   = true
   local_user_enabled              = false
+  shared_access_key_enabled       = true
   tags                            = var.tags
   static_website {
     index_document     = "index.htm"
@@ -42,6 +42,9 @@ resource "azurerm_storage_account" "stmtasts" {
     container_delete_retention_policy {
       days = 7
     }
+  }
+  sas_policy {
+    expiration_period = "01.12:00:00"
   }
 }
 
