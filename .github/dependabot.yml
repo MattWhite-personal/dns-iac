@@ -12,9 +12,13 @@ updates:
       time: "15:00"
     assignees:
       - "MattWhite-personal"
+    commit-message:
+      prefix: ":dependabot: "
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "daily"
+    commit-message:
+      prefix: ":dependabot: "
     assignees:
       - "MattWhite-personal"
