@@ -174,6 +174,16 @@ module "mjw-records" {
         "ns3-03.azure-dns.org.",
         "ns4-03.azure-dns.info."
       ]
+    },
+    {
+      name = "tfttest2"
+      ttl  = 300
+      records = [
+        "ns1-05.azure-dns.com.",
+        "ns2-05.azure-dns.net.",
+        "ns3-05.azure-dns.org.",
+        "ns4-05.azure-dns.info."
+      ]
     }
   ]
   ptr-records = []
