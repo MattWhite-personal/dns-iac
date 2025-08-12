@@ -11,7 +11,7 @@ jobs:
   format-code:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ministryofjustice/github-actions/code-formatter@v18.6.0
         with:
           ignore-files: ""
