@@ -102,7 +102,7 @@ jobs:
     # If changes are detected, create a new issue
     - name: Publish Drift Report
       if: steps.tf-plan.outputs.exitcode == 2
-      uses: actions/github-script@v7
+      uses: actions/github-script@v8
       env:
         SUMMARY: "${{ steps.tf-plan-string.outputs.summary }}"
       with:
@@ -150,7 +150,7 @@ jobs:
     # If changes aren't detected, close any open drift issues
     - name: Publish Drift Report
       if: steps.tf-plan.outputs.exitcode == 0
-      uses: actions/github-script@v7
+      uses: actions/github-script@v8
       with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
