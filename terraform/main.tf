@@ -21,8 +21,9 @@ provider "azurerm" {
 
 locals {
   tags = {
-    source  = "terraform"
-    managed = "as-code"
+    source     = "terraform"
+    managed    = "as-code"
+    repository = var.repository
   }
   permitted_ips = [
     "62.3.75.22",
