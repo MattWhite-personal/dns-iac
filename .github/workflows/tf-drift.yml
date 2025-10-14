@@ -34,11 +34,11 @@ jobs:
     steps:
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
-      uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+      uses: actions/checkout@v5.0.0
 
     # Install the latest version of the Terraform CLI
     - name: Setup Terraform
-      uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3.1.2
+      uses: hashicorp/setup-terraform@v3.1.2
       with:
         terraform_wrapper: false
 
@@ -65,7 +65,7 @@ jobs:
         
     # Save plan to artifacts  
     - name: Publish Terraform Plan
-      uses: actions/upload-artifact@ff15f0306b3f739f7b6fd43fb5d26cd321bd4de5 # v3.2.1
+      uses: actions/upload-artifact@v3.2.1
       with:
         name: tfplan
         path: terraform/tfplan
@@ -97,7 +97,7 @@ jobs:
     # If changes are detected, create a new issue
     - name: Publish Drift Report
       if: steps.tf-plan.outputs.exitcode == 2
-      uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
+      uses: actions/github-script@v8.0.0
       env:
         SUMMARY: "${{ steps.tf-plan-string.outputs.summary }}"
       with:
@@ -145,7 +145,7 @@ jobs:
     # If changes aren't detected, close any open drift issues
     - name: Publish Drift Report
       if: steps.tf-plan.outputs.exitcode == 0
-      uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
+      uses: actions/github-script@v8.0.0
       with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
