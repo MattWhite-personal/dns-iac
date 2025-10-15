@@ -218,7 +218,7 @@ module "mjw-records" {
     },
     {
       name    = "_dnsauth.dev",
-      records = [data.terraform_remote_state.outputs.dev-mjw-dnsauth]
+      records = [data.terraform_remote_state.web-server.outputs.dev-mjw-dnsauth]
     }
   ]
 }
