@@ -1,5 +1,6 @@
 resource "azurerm_storage_account" "mta-sts" {
   #checkov:skip=CKV_AZURE_33:Not using queue service
+  #checkov:skip=CKV_AZURE_43:Own naming convention is in use
   #checkov:skip=CKV_AZURE_59:The storage account can be publicly accessed
   #checkov:skip=CKV2_AZURE_1:Customer Managed Key is not required
   #checkov:skip=CKV2_AZURE_33:Private endpoints not suitable for storage account
