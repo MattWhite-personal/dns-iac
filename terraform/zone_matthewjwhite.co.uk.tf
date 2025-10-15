@@ -147,7 +147,7 @@ module "mjw-records" {
     },
     {
       name    = "dev",
-      record  = data.terraform_remote_state.web-server.outputs.dev-swa
+      record  = data.terraform_remote_state.web-server.outputs.dev-mjw-cdn-endpoint
       isAlias = false
     }
 
@@ -215,6 +215,10 @@ module "mjw-records" {
         data.terraform_remote_state.web-server.outputs.mjw-dns-txt
       ]
       ttl = 600
+    },
+    {
+      name    = "_dnsauth.dev",
+      records = [data.terraform_remote_state.web-server.outputs.dev-mjw-dnsauth]
     }
   ]
 }
