@@ -134,6 +134,7 @@ jobs:
           export exitcode=0
           terraform plan -detailed-exitcode -var="runner-ip=${{ env.TF_VAR_runner_ip }}" -no-color -out tfplan || export exitcode=$?
 
+          echo "exitcode is $exitcode"
           echo "exitcode=$exitcode" >> $GITHUB_OUTPUT
 
           if [ $exitcode -eq 1 ]; then
@@ -143,7 +144,12 @@ jobs:
             exit 0
           fi
 
-      # Save plan to artifacts
+      - name: Show Terraform Plan Exit Code
+        id: show-tf-plan-exit-code
+        run: |
+          echo "Terraform Plan Exit Code: ${{ steps.tf-plan.outputs.exitcode }}"
+
+      #Save plan to artifacts
       - name: Publish Terraform Plan
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
