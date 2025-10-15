@@ -19,7 +19,7 @@ module "mjw-records" {
     {
       name       = "@"
       isAlias    = true
-      resourceID = data.terraform_remote_state.web-server.outputs.mjw-swa-id
+      resourceID = data.terraform_remote_state.web-server.outputs.mjw-cdn-endpoint
       ttl        = 60
     },
     {
@@ -219,6 +219,10 @@ module "mjw-records" {
     {
       name    = "_dnsauth.dev",
       records = [data.terraform_remote_state.web-server.outputs.dev-mjw-dnsauth]
+    },
+    {
+      name    = "_dnsauth",
+      records = [data.terraform_remote_state.web-server.outputs.mjw-dnsauth]
     }
   ]
 }
