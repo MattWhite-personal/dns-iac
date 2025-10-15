@@ -19,7 +19,7 @@ module "mjw-records" {
     {
       name       = "@"
       isAlias    = true
-      resourceID = data.terraform_remote_state.web-server.outputs.mjw-swa-id
+      resourceID = data.terraform_remote_state.web-server.outputs.mjw-cdn-endpoint
       ttl        = 60
     },
     {
@@ -211,14 +211,17 @@ module "mjw-records" {
         "v=spf1 include:spf.protection.outlook.com a:www.matthewjwhite.co.uk -all",
         "MS=ms65196555",
         "google-site-verification=1UJCslKGjOU26wgnB_rnNY9WyQaXxxyNRHQxQqxFBPY",
-        "ms-domain-verification=d8300c96-c9ba-4569-a0f9-469cbc585614",
-        data.terraform_remote_state.web-server.outputs.mjw-dns-txt
+        "ms-domain-verification=d8300c96-c9ba-4569-a0f9-469cbc585614"
       ]
       ttl = 600
     },
     {
       name    = "_dnsauth.dev",
       records = [data.terraform_remote_state.web-server.outputs.dev-mjw-dnsauth]
+    },
+    {
+      name    = "_dnsauth",
+      records = [data.terraform_remote_state.web-server.outputs.mjw-dnsauth]
     }
   ]
 }
