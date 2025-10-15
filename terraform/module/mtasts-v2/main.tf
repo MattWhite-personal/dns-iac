@@ -20,5 +20,5 @@ locals {
       [cidr]
     )
   ])
-  storage-account-name = "st${local.storage_prefix}mtasts"
+  storage-account-name = "stmtasts${local.storage_prefix}"
 }
