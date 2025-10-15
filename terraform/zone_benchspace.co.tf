@@ -111,19 +111,19 @@ module "bs-co-records" {
   ]
 }
 
-
 module "bs-co-mtasts" {
-  source                   = "./module/mtasts"
-  use-existing-cdn-profile = true
-  existing-cdn-profile     = azurerm_cdn_profile.cdn-mta-sts.name
-  cdn-resource-group       = azurerm_resource_group.cdnprofiles.name
-  dns-resource-group       = azurerm_resource_group.dnszones.name
-  mx-records               = ["benchspace-co.mail.protection.outlook.com"]
-  domain-name              = azurerm_dns_zone.benchspace-co.name
-  depends_on               = [azurerm_resource_group.cdnprofiles, azurerm_resource_group.dnszones]
-  reporting-email          = "tls-reports@matthewjwhite.co.uk"
-  stg-resource-group       = "RG-WhiteFam-UKS"
-  resource-prefix          = "bsco"
-  tags                     = local.tags
-  permitted-ips            = local.permitted_ips
+  source                  = "./module/mtasts-v2"
+  use-existing-front-door = true
+  existing-front-door     = data.terraform_remote_state.web-server.outputs.whitefam-afd
+  afd-resource-group      = data.terraform_remote_state.web-server.outputs.afd-resource-group
+  dns-resource-group      = azurerm_resource_group.dnszones.name
+  mx-records              = ["benchspace-co.mail.protection.outlook.com"]
+  max-age                 = 86401
+  domain-name             = azurerm_dns_zone.benchspace-co.name
+  depends_on              = [azurerm_resource_group.cdnprofiles, azurerm_resource_group.dnszones]
+  reporting-email         = "tls-reports@matthewjwhite.co.uk"
+  stg-resource-group      = "RG-WhiteFam-UKS"
+  resource-prefix         = "bsco"
+  tags                    = local.tags
+  runner-ip               = var.runner-ip
 }
