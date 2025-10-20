@@ -117,17 +117,17 @@ module "bs-uk-records" {
 }
 
 module "bs-uk-mtasts" {
-  source                   = "./module/mtasts-v2"
+  source                  = "./module/mtasts-v2"
   use-existing-front-door = true
   existing-front-door     = data.terraform_remote_state.web-server.outputs.whitefam-afd
   afd-resource-group      = data.terraform_remote_state.web-server.outputs.afd-resource-group
   dns-resource-group      = azurerm_resource_group.dnszones.name
-  mx-records               = ["benchspace-uk.mail.protection.outlook.com"]
-  domain-name              = azurerm_dns_zone.benchspace-uk.name
-  depends_on               = [azurerm_resource_group.cdnprofiles, azurerm_resource_group.dnszones]
-  reporting-email          = "tls-reports@matthewjwhite.co.uk"
-  stg-resource-group       = "RG-WhiteFam-UKS"
-  resource-prefix          = "bsuk"
-  tags                     = local.tags
-  runner-ip = var.runner-ip
+  mx-records              = ["benchspace-uk.mail.protection.outlook.com"]
+  domain-name             = azurerm_dns_zone.benchspace-uk.name
+  depends_on              = [azurerm_resource_group.cdnprofiles, azurerm_resource_group.dnszones]
+  reporting-email         = "tls-reports@matthewjwhite.co.uk"
+  stg-resource-group      = "RG-WhiteFam-UKS"
+  resource-prefix         = "bsuk"
+  tags                    = local.tags
+  runner-ip               = var.runner-ip
 }
