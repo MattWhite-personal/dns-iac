@@ -2,6 +2,11 @@
 
 on:
   workflow_dispatch:
+    inputs:
+      inject_failure:
+        description: 'Set to "true" to inject a failure after tf-plan to test failure handling (non-tf-plan failures).'
+        required: false
+        default: 'false'
   schedule:
     - cron: "41 3 * * *" # runs nightly at 3:41 am
 
@@ -165,6 +170,30 @@ jobs:
         run: |
           echo "$SUMMARY" >> $GITHUB_STEP_SUMMARY
 
+      # Optional: Inject a failure (test only) — set inject_failure input to "true" when dispatching to exercise failure handling
+      - name: Inject Failure (test only)
+        if: ${{ github.event.inputs.inject_failure == 'true' }}
+        run: |
+          echo "🔧 Injecting test failure as requested (workflow_dispatch.inject_failure == 'true')"
+          exit 1
+      
+      # Diagnostic: dump useful context when job fails (helps validate the failure-handling behavior)
+      - name: Diagnostic Debug Info
+        if: failure()
+        run: |
+          echo "=== Diagnostic Debug Info ==="
+          echo "Run: $GITHUB_RUN_ID (#$GITHUB_RUN_NUMBER)"
+          echo "Repository: $GITHUB_REPOSITORY"
+          echo "Actor: $GITHUB_ACTOR"
+          echo "Job: $GITHUB_JOB"
+          echo "Event name: $GITHUB_EVENT_NAME"
+          echo "Workflow: $GITHUB_WORKFLOW"
+          echo "TF plan exitcode (if set): ${{ steps.tf-plan.outputs.exitcode || 'n/a' }}"
+          echo "Runner IP (if set): ${{ steps.get-runner-ip.outputs.runner_ip || 'n/a' }}"
+          echo "Storage accounts list (if set): ${{ steps.get-storage-accounts.outputs.storage_accounts_and_rgs || 'n/a' }}"
+          echo "============================="
+        shell: bash
+
       # If changes are detected, create a new issue
       - name: Publish Drift Report
         if: steps.tf-plan.outputs.exitcode == 2
@@ -176,42 +205,53 @@ jobs:
           script: |
             const body = `${process.env.SUMMARY}`;
             const title = 'Terraform Configuration Drift Detected';
-            const creator = 'github-actions[bot]'
+            const creator = 'github-actions[bot]';
+            const assignee = 'MattWhite-personal';
 
-            // Look to see if there is an existing drift issue
-            const issues = await github.rest.issues.listForRepo({
+            // List open issues by creator and find exact title match (listForRepo doesn't support title filter)
+            const res = await github.rest.issues.listForRepo({
               owner: context.repo.owner,
               repo: context.repo.repo,
               state: 'open',
               creator: creator,
-              title: title
-            })
-              
-            if( issues.data.length > 0 ) {
-              // We assume there shouldn't be more than 1 open issue, since we update any issue we find
-              const issue = issues.data[0]
-              
-              if ( issue.body == body ) {
-                console.log('Drift Detected: Found matching issue with duplicate content')
+              per_page: 100
+            });
+
+            const existing = res.data.find(i => i.title === title);
+
+            if (existing) {
+              // We update if body differs
+              if (existing.body === body) {
+                console.log('Drift Detected: Found matching issue with duplicate content');
               } else {
-                console.log('Drift Detected: Found matching issue, updating body')
-                github.rest.issues.update({
+                console.log('Drift Detected: Found matching issue, updating body');
+                await github.rest.issues.update({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
-                  issue_number: issue.number,
+                  issue_number: existing.number,
                   body: body
-                })
+                });
               }
             } else {
-              console.log('Drift Detected: Creating new issue')
-
-              github.rest.issues.create({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                title: title,
-                body: body
-                assignees: ["MattWhite-personal"]
-             })
+              console.log('Drift Detected: Creating new issue');
+              // Try to create with assignee; if assignment fails (e.g. user not assignable), retry without assignee.
+              try {
+                await github.rest.issues.create({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  title: title,
+                  body: body,
+                  assignees: [assignee]
+                });
+              } catch (err) {
+                console.warn(`Assigning ${assignee} failed: ${err.message}. Creating issue without assignee.`);
+                await github.rest.issues.create({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  title: title,
+                  body: body
+                });
+              }
             }
 
       # If changes aren't detected, close any open drift issues
@@ -222,27 +262,85 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const title = 'Terraform Configuration Drift Detected';
-            const creator = 'github-actions[bot]'
+            const creator = 'github-actions[bot]';
 
-            // Look to see if there is an existing drift issue
-            const issues = await github.rest.issues.listForRepo({
+            // List open issues by creator and find exact title match
+            const res = await github.rest.issues.listForRepo({
               owner: context.repo.owner,
               repo: context.repo.repo,
               state: 'open',
               creator: creator,
-              title: title
-            })
-              
-            if( issues.data.length > 0 ) {
-              const issue = issues.data[0]
-              
-              github.rest.issues.update({
+              per_page: 100
+            });
+
+            const existing = res.data.find(i => i.title === title);
+
+            if (existing) {
+              await github.rest.issues.update({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                issue_number: issue.number,
+                issue_number: existing.number,
                 state: 'closed'
-              })
+              });
             }
+
+      # Create an issue when the job fails for reasons OTHER THAN tf-plan failing
+      - name: Create Issue on Failure (non-tf-plan)
+        if: ${{ failure() && steps.tf-plan.conclusion != 'failure' }}
+        uses: actions/github-script@v8
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const title = 'Workflow Failure: Terraform Configuration Drift Detection';
+            const creator = 'github-actions[bot]';
+            const assignee = 'MattWhite-personal';
+
+            const runUrl = `${process.env.GITHUB_SERVER_URL}/${context.repo.owner}/${context.repo.repo}/actions/runs/${process.env.GITHUB_RUN_ID}`;
+            const body = `A previous step in the Terraform Configuration Drift Detection workflow failed.\n\nRepository: ${context.repo.owner}/${context.repo.repo}\nRun URL: ${runUrl}\n\nPlease investigate.`;
+
+            // Look for an existing open issue created by the workflow with the same title
+            const res = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              creator: creator,
+              per_page: 100
+            });
+
+            const existing = res.data.find(i => i.title === title);
+
+            if (existing) {
+              // Update body to surface latest run info
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: existing.number,
+                body: body
+              });
+              console.log(`Updated existing issue #${existing.number}`);
+            } else {
+              // Try to create with assignee; if assignment fails, create without assignee
+              try {
+                const created = await github.rest.issues.create({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  title: title,
+                  body: body,
+                  assignees: [assignee]
+                });
+                console.log(`Created issue #${created.data.number} assigned to ${assignee}`);
+              } catch (err) {
+                console.warn(`Assigning ${assignee} failed: ${err.message}. Creating issue without assignee.`);
+                const created = await github.rest.issues.create({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  title: title,
+                  body: body
+                });
+                console.log(`Created issue #${created.data.number} without assignee`);
+              }
+            }
+
       # Remove the storage account firewall rule for the runner IP
       - name: Remove Runner IP from Storage Account Firewall
         if: always()
