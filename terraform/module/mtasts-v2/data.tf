@@ -1,10 +1,3 @@
-# Obtain Azure Front Door service tags for backend communication
-data "azurerm_network_service_tags" "AzureFrontDoor-BackEnd" {
-  location = var.location
-  service  = "AzureFrontDoor.Backend"
-
-}
-
 # If using an existing Front Door, get the resource group
 data "azurerm_resource_group" "afd" {
   #count = var.use-existing-front-door ? 1 : 0

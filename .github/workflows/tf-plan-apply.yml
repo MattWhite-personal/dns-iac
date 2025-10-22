@@ -98,7 +98,7 @@ jobs:
             STORAGE_ACCOUNT="${PARTS[0]}"
              RESOURCE_GROUP="${PARTS[1]}"
              
-            echo "➡️ Adding firewall rule for $STORAGE_ACCOUNT in $RESOURCE_GROUP..."
+            echo "::group::Adding firewall rule for $STORAGE_ACCOUNT in $RESOURCE_GROUP..."
             az storage account network-rule add --resource-group $RESOURCE_GROUP  --account-name $STORAGE_ACCOUNT --ip-address ${{ steps.get-runner-ip.outputs.runner_ip }} > /dev/null
              
             echo "⏳ Verifying access for $STORAGE_ACCOUNT..."
@@ -119,6 +119,7 @@ jobs:
                 exit 1
               fi
             done
+            echo "::endgroup::"
           done
 
       # Checks that all Terraform configuration files adhere to a canonical format

@@ -168,6 +168,6 @@ module "oa-mtasts" {
   reporting-email         = "tls-reports@matthewjwhite.co.uk"
   tags                    = local.tags
   resource-prefix         = "oa"
-  runner-ip               = var.runner-ip
+  permitted-ips           = local.permitted-ips
 }
 

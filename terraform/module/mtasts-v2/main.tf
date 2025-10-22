@@ -8,17 +8,6 @@ locals {
     "premium"  = "Premium_AzureFrontDoor",
     "default"  = "Standard_AzureFrontDoor"
   }
-  front-door-id = var.use-existing-front-door ? data.azurerm_cdn_frontdoor_profile.afd[0].id : azurerm_cdn_frontdoor_profile.mta-sts[0].id
-  stg-permitted-ips = flatten([
-    for cidr in concat(data.azurerm_network_service_tags.AzureFrontDoor-BackEnd.ipv4_cidrs, [var.runner-ip]) : (
-      tonumber(split("/", cidr)[1]) >= 31 ?
-      [
-        for i in range(
-          tonumber(split("/", cidr)[1]) == 32 ? 1 : 2
-        ) : cidrhost(cidr, i)
-      ] :
-      [cidr]
-    )
-  ])
+  front-door-id        = var.use-existing-front-door ? data.azurerm_cdn_frontdoor_profile.afd[0].id : azurerm_cdn_frontdoor_profile.mta-sts[0].id
   storage-account-name = "stmtasts${local.storage_prefix}"
 }
