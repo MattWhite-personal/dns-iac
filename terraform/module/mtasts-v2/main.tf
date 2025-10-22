@@ -8,6 +8,6 @@ locals {
     "premium"  = "Premium_AzureFrontDoor",
     "default"  = "Standard_AzureFrontDoor"
   }
-  front-door-id = var.use-existing-front-door ? data.azurerm_cdn_frontdoor_profile.afd[0].id : azurerm_cdn_frontdoor_profile.mta-sts[0].id
+  front-door-id        = var.use-existing-front-door ? data.azurerm_cdn_frontdoor_profile.afd[0].id : azurerm_cdn_frontdoor_profile.mta-sts[0].id
   storage-account-name = "stmtasts${local.storage_prefix}"
 }
