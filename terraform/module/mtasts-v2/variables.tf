@@ -109,9 +109,8 @@ variable "tags" {
   }
 }
 
-variable "runner-ip" {
-  description = "IP address of the GitHub Actions runner"
-  sensitive   = true
-  type        = string
-  default     = ""
+variable "permitted-ips" {
+  description = "list of IP addresses that can access storage accounts"
+  sensitive   = false
+  type        = list(string)
 }
