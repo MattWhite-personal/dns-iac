@@ -93,5 +93,5 @@ module "tlw-mtasts" {
   tags                    = local.tags
   resource-prefix         = "tlw"
   mtastsmode              = "testing"
-  runner-ip               = var.runner-ip
+  permitted-ips           = local.permitted-ips
 }
