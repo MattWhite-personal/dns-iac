@@ -119,7 +119,7 @@ jobs:
                 exit 1
               fi
             done
-            echo::endgroup::
+            echo "::endgroup::"
           done
 
       # Checks that all Terraform configuration files adhere to a canonical format
