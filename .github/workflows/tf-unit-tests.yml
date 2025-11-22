@@ -2,6 +2,8 @@
 
 on:
   push:
+    paths:
+      - 'terraform/**'
 
 permissions:
   security-events: write # Needed to upload-sarif
