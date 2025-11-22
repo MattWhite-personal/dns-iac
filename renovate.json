@@ -4,4 +4,11 @@
     "config:recommended"
   ]
   "assignees": ["MattWhite-personal"]
+
+  "packageRules": [
+    {
+      "managers": ["terraform", "npm", "github-actions"],
+      "rangeStrategy": "pin"
+    }
+  ]
 }
