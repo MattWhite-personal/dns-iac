@@ -3,11 +3,16 @@
   "extends": [
     "config:recommended"
   ],
-  "assignees": ["MattWhite-personal"],
-
+  "assignees": [
+    "MattWhite-personal"
+  ],
   "packageRules": [
     {
-      "managers": ["terraform", "npm", "github-actions"],
+      "matchManagers": [
+        "terraform",
+        "npm",
+        "github-actions"
+      ],
       "rangeStrategy": "pin"
     }
   ]
