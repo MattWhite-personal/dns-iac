@@ -43,11 +43,11 @@ jobs:
     steps:
       # Checkout the repository to the GitHub Actions runner
       - name: Checkout
-        uses: actions/checkout@v6.0.1
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
 
       # Install the latest version of the Terraform CLI
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3.1.2
+        uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3.1.2
         with:
           terraform_wrapper: false
 
@@ -57,7 +57,7 @@ jobs:
 
       # Login to Azure CLI to support temporary runner IP allow-list
       - name: Setup Azure CLI
-        uses: azure/login@v2
+        uses: azure/login@1384c340ab2dda50fed2bee3041d1d87018aa5e8 # v2
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
@@ -218,3 +218,4 @@ jobs:
             echo "Storage account: $STORAGE_ACCOUNT, Resource group: $RESOURCE_GROUP"
             az storage account network-rule remove --resource-group $RESOURCE_GROUP  --account-name $STORAGE_ACCOUNT --ip-address ${{ steps.get-runner-ip.outputs.runner_ip }} > /dev/null
           done
+
