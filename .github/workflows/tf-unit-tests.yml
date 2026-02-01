@@ -39,7 +39,7 @@ jobs:
     # Perform a security scan of the terraform code using checkov
     - name: Run Checkov action
       id: checkov
-      uses: bridgecrewio/checkov-action@5051a5cfc7e4c71d95199f81ffafbb490c7e6213 # v12.3079.0
+      uses: bridgecrewio/checkov-action@f34885219720066007f948b843e747bb136aa223 # v12.3080.0
       with: 
         framework: terraform
         # This will add both a CLI output to the console and create a results.sarif file
