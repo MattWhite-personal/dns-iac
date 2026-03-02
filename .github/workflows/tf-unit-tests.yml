@@ -1,4 +1,4 @@
-﻿name: 'Terraform Unit Tests'
+name: 'Terraform Unit Tests'
 
 on:
   push:
@@ -50,7 +50,7 @@ jobs:
      # Upload results to GitHub Advanced Security
     - name: Upload SARIF file
       if: success() || failure()
-      uses: github/codeql-action/upload-sarif@89a39a4e59826350b863aa6b6252a07ad50cf83e # v4.32.4
+      uses: github/codeql-action/upload-sarif@c793b717bc78562f491db7b0e93a3a178b099162 # v4.32.5
       with:
         sarif_file: results.sarif
         category: checkov
