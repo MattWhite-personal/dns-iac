@@ -211,7 +211,8 @@ module "mjw-records" {
         "v=spf1 include:spf.protection.outlook.com a:www.matthewjwhite.co.uk -all",
         "MS=ms65196555",
         "google-site-verification=1UJCslKGjOU26wgnB_rnNY9WyQaXxxyNRHQxQqxFBPY",
-        "ms-domain-verification=d8300c96-c9ba-4569-a0f9-469cbc585614"
+        "ms-domain-verification=d8300c96-c9ba-4569-a0f9-469cbc585614",
+        "hibp-verify=dweb_kr45oste61rvcu0afl62gaua"
       ]
       ttl = 600
     },
