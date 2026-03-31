@@ -212,7 +212,7 @@ module "mjw-records" {
         "MS=ms65196555",
         "google-site-verification=1UJCslKGjOU26wgnB_rnNY9WyQaXxxyNRHQxQqxFBPY",
         "ms-domain-verification=d8300c96-c9ba-4569-a0f9-469cbc585614",
-"hibp-verify=dweb_kr45oste61rvcu0afl62gaua"
+        "hibp-verify=dweb_kr45oste61rvcu0afl62gaua"
       ]
       ttl = 600
     },
