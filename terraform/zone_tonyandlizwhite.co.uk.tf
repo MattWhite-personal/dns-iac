@@ -68,7 +68,7 @@ module "tlw-records" {
   srv-records = []
   txt-records = [
     {
-      name    = "@",
+      name = "@",
       records = [
         "v=spf1 include:spf.protection.outlook.com -all",
         "hibp-verify=dweb_cgdryvlang8a9zo77jgmxpek"
