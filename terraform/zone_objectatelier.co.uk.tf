@@ -146,7 +146,8 @@ module "oa-records" {
       records = [
         "google-site-verification=UuLhdMHYJjVRhgEnshou6NHQSr4j_n0CqTETDwpmCrA",
         "v=spf1 include:spf.protection.outlook.com -all",
-        "ms-domain-verification=a1b58344-519b-41ae-9d39-ab122d64e909"
+        "ms-domain-verification=a1b58344-519b-41ae-9d39-ab122d64e909",
+        "hibp-verify=dweb_v1agiai6grkca6h8cjj53w1d"
       ]
     }
 
