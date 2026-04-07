@@ -8,6 +8,80 @@
   ],
   "packageRules": [
     {
+      "description": "Wait 3 days for patch releases",
+      "matchUpdateTypes": ["patch"],
+      "minimumReleaseAge": "3 days"
+    },
+    {
+      "description": "Wait 7 days for minor releases",
+      "matchUpdateTypes": ["minor"],
+      "minimumReleaseAge": "7 days"
+    },
+    {
+      "description": "Wait 30 days for major releases",
+      "matchUpdateTypes": ["major"],
+      "minimumReleaseAge": "30 days"
+    },
+    {
+      "description": "Group Astro Updates together",
+      "matchManagers": ["npm"],
+      "matchPackagePatterns": ["^astro", "^@astrojs/"],
+      "groupName": "Astro Packages",
+      "matchUpdateTypes": ["patch","minor"]
+    },
+    {
+      "description": "Require manual aproval - Astro major updates",
+      "matchManagers": ["npm"],
+      "matchPackagePatterns": ["^astro", "^@astrojs/"],
+      "matchUpdateTypes": ["major"],
+      "dependencyDashboardApproval": true
+    },
+    {
+      "description": "Group AzureRM Terraform Updates",
+      "matchManagers": ["terraform"],
+      "matchPackagePatterns": ["hashicorp/azurerm"],
+      "groupName": "Terrafrom AzureRM provder",
+      "matchUpdateTypes": ["patch","minor"]
+    },
+    {
+      "description": "Require manual aproval - Terraform AzureRM Major Updates",
+      "matchManagers": ["terraform"],
+      "matchPackagePatterns": ["hashicorp/azurerm"],
+      "matchUpdateTypes": ["major"],
+      "dependencyDashboardApproval": true
+    },
+    {
+      "description": "Group AzureAD Terraform Updates",
+      "matchManagers": ["terraform"],
+      "matchPackagePatterns": ["hashicorp/azuread"],
+      "groupName": "Terrafrom AzureAD provder",
+      "matchUpdateTypes": ["patch","minor"]
+    },
+    {
+      "description": "Require manual aproval - Terraform AzureAD Major Updates",
+      "matchManagers": ["terraform"],
+      "matchPackagePatterns": ["hashicorp/azuread"],
+      "matchUpdateTypes": ["major"],
+      "dependencyDashboardApproval": true
+    },
+    {
+      "description": "Group GitHub Actions",
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["patch","minor"],
+      "groupName": "Github Actions"
+    },
+    {
+      "description": "Require manual Approcal - Github Actions Major Updates",
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["major"],
+      "dependencyDashboardApproval": true
+    },
+    {
+      "description": "Pin Github Actions to commit SHA",
+      "matchManagers": ["github-actions"],
+      "pinDigests": true
+    },
+    {
       "matchManagers": [
         "terraform",
         "npm",
