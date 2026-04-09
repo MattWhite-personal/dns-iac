@@ -6,6 +6,16 @@
   "assignees": [
     "MattWhite-personal"
   ],
+  "vulnerabilityAlerts": {
+    "labels": ["security"],
+    "automerge": false
+  },
+  "osvVulnerabilityAlerts": true,
+  "dependencyDashboardOSVVulnerabilitySummary": "all",
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": ["before 4am on monday"]
+  },
   "packageRules": [
     {
       "description": "Wait 3 days for patch releases",
@@ -25,44 +35,58 @@
     {
       "description": "Group Astro Updates together",
       "matchManagers": ["npm"],
-      "matchPackagePatterns": ["^astro", "^@astrojs/"],
       "groupName": "Astro Packages",
-      "matchUpdateTypes": ["patch","minor"]
+      "matchUpdateTypes": ["patch","minor"],
+      "matchPackageNames": [
+        "astro",
+        "@astrojs/*"
+      ]
     },
     {
       "description": "Require manual aproval - Astro major updates",
       "matchManagers": ["npm"],
-      "matchPackagePatterns": ["^astro", "^@astrojs/"],
       "matchUpdateTypes": ["major"],
-      "dependencyDashboardApproval": true
+      "dependencyDashboardApproval": true,
+      "matchPackageNames": [
+        "astro",
+        "@astrojs/*"
+      ]
     },
     {
       "description": "Group AzureRM Terraform Updates",
       "matchManagers": ["terraform"],
-      "matchPackagePatterns": ["hashicorp/azurerm"],
-      "groupName": "Terrafrom AzureRM provder",
-      "matchUpdateTypes": ["patch","minor"]
+      "groupName": "Terraform AzureRM provder",
+      "matchUpdateTypes": ["patch","minor"],
+      "matchPackageNames": [
+        "hashicorp/azurerm"
+      ]
     },
     {
       "description": "Require manual aproval - Terraform AzureRM Major Updates",
       "matchManagers": ["terraform"],
-      "matchPackagePatterns": ["hashicorp/azurerm"],
       "matchUpdateTypes": ["major"],
-      "dependencyDashboardApproval": true
+      "dependencyDashboardApproval": true,
+      "matchPackageNames": [
+        "hashicorp/azurerm"
+      ]
     },
     {
       "description": "Group AzureAD Terraform Updates",
       "matchManagers": ["terraform"],
-      "matchPackagePatterns": ["hashicorp/azuread"],
-      "groupName": "Terrafrom AzureAD provder",
-      "matchUpdateTypes": ["patch","minor"]
+      "groupName": "Terraform AzureAD provder",
+      "matchUpdateTypes": ["patch","minor"],
+      "matchPackageNames": [
+        "hashicorp/azuread"
+      ]
     },
     {
       "description": "Require manual aproval - Terraform AzureAD Major Updates",
       "matchManagers": ["terraform"],
-      "matchPackagePatterns": ["hashicorp/azuread"],
       "matchUpdateTypes": ["major"],
-      "dependencyDashboardApproval": true
+      "dependencyDashboardApproval": true,
+      "matchPackageNames": [
+        "hashicorp/azuread"
+      ]
     },
     {
       "description": "Group GitHub Actions",
