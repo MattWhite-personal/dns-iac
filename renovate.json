@@ -3,6 +3,7 @@
   "extends": [
     "config:recommended"
   ],
+  "timezone": "Europe/London",
   "assignees": [
     "MattWhite-personal"
   ],
@@ -12,6 +13,12 @@
   },
   "osvVulnerabilityAlerts": true,
   "dependencyDashboardOSVVulnerabilitySummary": "all",
+  "semanticCommits": "enabled",
+  "semanticCommitType": "chore",
+  "semanticCommitScope": "deps",
+  "prConcurrentLimit": 10,
+  "prHourlyLimit": 7,
+  "minimumReleaseAgeBehaviour": "timestamp-required",
   "lockFileMaintenance": {
     "enabled": true,
     "schedule": ["before 4am on monday"]
@@ -20,73 +27,44 @@
     {
       "description": "Wait 3 days for patch releases",
       "matchUpdateTypes": ["patch"],
-      "minimumReleaseAge": "3 days"
+      "minimumReleaseAge": "3 days",
+      "semanticCommitType": "fix"
     },
     {
       "description": "Wait 7 days for minor releases",
       "matchUpdateTypes": ["minor"],
-      "minimumReleaseAge": "7 days"
+      "minimumReleaseAge": "7 days",
+      "semanticCommitType": "feat"
     },
     {
       "description": "Wait 30 days for major releases",
       "matchUpdateTypes": ["major"],
-      "minimumReleaseAge": "30 days"
+      "minimumReleaseAge": "30 days",
+      "semanticCommitType": "feat"
     },
     {
-      "description": "Group Astro Updates together",
+      "description": "Group npm Updates together",
       "matchManagers": ["npm"],
       "groupName": "Astro Packages",
-      "matchUpdateTypes": ["patch","minor"],
-      "matchPackageNames": [
-        "astro",
-        "@astrojs/*"
-      ]
+      "matchUpdateTypes": ["patch","minor"]
     },
     {
-      "description": "Require manual aproval - Astro major updates",
+      "description": "Require manual approval - npm major updates",
       "matchManagers": ["npm"],
       "matchUpdateTypes": ["major"],
-      "dependencyDashboardApproval": true,
-      "matchPackageNames": [
-        "astro",
-        "@astrojs/*"
-      ]
+      "dependencyDashboardApproval": true
     },
     {
-      "description": "Group AzureRM Terraform Updates",
+      "description": "Group Terraform Updates",
       "matchManagers": ["terraform"],
-      "groupName": "Terraform AzureRM provder",
-      "matchUpdateTypes": ["patch","minor"],
-      "matchPackageNames": [
-        "hashicorp/azurerm"
-      ]
+      "groupName": "Terraform AzureRM provider",
+      "matchUpdateTypes": ["patch","minor"]
     },
     {
-      "description": "Require manual aproval - Terraform AzureRM Major Updates",
+      "description": "Require manual approval - Terraform Major Updates",
       "matchManagers": ["terraform"],
       "matchUpdateTypes": ["major"],
-      "dependencyDashboardApproval": true,
-      "matchPackageNames": [
-        "hashicorp/azurerm"
-      ]
-    },
-    {
-      "description": "Group AzureAD Terraform Updates",
-      "matchManagers": ["terraform"],
-      "groupName": "Terraform AzureAD provder",
-      "matchUpdateTypes": ["patch","minor"],
-      "matchPackageNames": [
-        "hashicorp/azuread"
-      ]
-    },
-    {
-      "description": "Require manual aproval - Terraform AzureAD Major Updates",
-      "matchManagers": ["terraform"],
-      "matchUpdateTypes": ["major"],
-      "dependencyDashboardApproval": true,
-      "matchPackageNames": [
-        "hashicorp/azuread"
-      ]
+      "dependencyDashboardApproval": true
     },
     {
       "description": "Group GitHub Actions",
@@ -95,7 +73,7 @@
       "groupName": "Github Actions"
     },
     {
-      "description": "Require manual Approcal - Github Actions Major Updates",
+      "description": "Require manual Approval - Github Actions Major Updates",
       "matchManagers": ["github-actions"],
       "matchUpdateTypes": ["major"],
       "dependencyDashboardApproval": true
@@ -106,12 +84,9 @@
       "pinDigests": true
     },
     {
-      "matchManagers": [
-        "terraform",
-        "npm",
-        "github-actions"
-      ],
-      "rangeStrategy": "pin"
+      "description": "Set npm strategy to bump",
+      "matchDatasources": ["npm"],
+      "rangeStrategy": "bump"
     }
   ]
 }
