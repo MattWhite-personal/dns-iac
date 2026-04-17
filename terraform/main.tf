@@ -37,10 +37,10 @@ resource "azurerm_resource_group" "cdnprofiles" {
   }
 }
 
-resource "azurerm_cdn_profile" "cdn-mta-sts" {
-  name                = "cdn-mjwmtasts"
-  location            = "global"
-  resource_group_name = azurerm_resource_group.cdnprofiles.name
-  sku                 = "Standard_Microsoft"
-  tags                = local.tags
-}
+#resource "azurerm_cdn_profile" "cdn-mta-sts" {
+#  name                = "cdn-mjwmtasts"
+#  location            = "global"
+#  resource_group_name = azurerm_resource_group.cdnprofiles.name
+#  sku                 = "Standard_Microsoft"
+#  tags                = local.tags
+#}
