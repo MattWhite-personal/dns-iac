@@ -84,6 +84,11 @@ module "maj-records" {
       record  = "majhoneymoon.azurewebsites.net"
       ttl     = 900,
       isAlias = false
+    },
+    {
+      name    = "files",
+      record  = data.terraform_remote_state.web-server.outputs.files-afd-endpoint
+      isAlias = false
     }
   ]
   mx-records = [
@@ -124,7 +129,11 @@ module "maj-records" {
       name    = "asuid.honeymoonblog",
       records = ["785BB65719041BA0A0ED39A14A41CC881653B01532783F9507B0C31FF2F54432"],
       ttl     = 900
-    }
+    },
+    {
+      name    = "_dnsauth.files",
+      records = [data.terraform_remote_state.web-server.outputs.files-dnsauth]
+    },
   ]
 
 }
