@@ -87,7 +87,7 @@ module "maj-records" {
     },
     {
       name    = "files",
-      record  = data.terraform_remote_state.web-server.outputs.files-afd-endpoint
+      resourceID  = data.terraform_remote_state.web-server.outputs.files-afd-endpoint
       isAlias = true
     }
   ]
