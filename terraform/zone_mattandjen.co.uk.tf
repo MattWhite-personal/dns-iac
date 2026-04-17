@@ -86,9 +86,9 @@ module "maj-records" {
       isAlias = false
     },
     {
-      name    = "files",
-      resourceID  = data.terraform_remote_state.web-server.outputs.files-afd-endpoint
-      isAlias = true
+      name       = "files",
+      resourceID = data.terraform_remote_state.web-server.outputs.files-afd-endpoint
+      isAlias    = true
     }
   ]
   mx-records = [
