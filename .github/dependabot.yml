@@ -8,8 +8,10 @@ updates:
   - package-ecosystem: "terraform"
     directory: "/terraform"
     schedule:
-      interval: "daily"
-      time: "15:00"
+      interval: "weekly"
+      day: "saturday"
+      time: "05:00"
+      timezone: "Europe/London"
     assignees:
       - "MattWhite-personal"
     commit-message:
@@ -17,7 +19,10 @@ updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "daily"
+      interval: "weekly"
+      day: "saturday"
+      time: "05:00"
+      timezone: "Europe/London"
     commit-message:
       prefix: ":dependabot: "
     assignees:
