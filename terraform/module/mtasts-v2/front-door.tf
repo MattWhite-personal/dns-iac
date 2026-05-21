@@ -54,7 +54,7 @@ resource "azurerm_cdn_frontdoor_custom_domain" "mta-sts" {
 
   tls {
     certificate_type = "ManagedCertificate"
-    cipher_suite     {
+    cipher_suite {
       type = "TLS12_2023"
     }
   }
