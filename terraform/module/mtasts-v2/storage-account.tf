@@ -1,3 +1,8 @@
+locals {
+  # existing locals stay as they are (e.g. storage-account-name)
+  web-container-id = "${azurerm_storage_account.mta-sts.id}/blobServices/default/containers/$web"
+}
+
 resource "azurerm_storage_account" "mta-sts" {
   #checkov:skip=CKV_AZURE_33:Not using queue service
   #checkov:skip=CKV_AZURE_43:Own naming convention is in use
@@ -42,21 +47,10 @@ resource "azurerm_storage_account_static_website" "mta-sts" {
   index_document     = "index.htm"
 }
 
-# NEW: Explicit storage container resource (required for azurerm v5)
-resource "azurerm_storage_container" "web" {
-  #checkov:skip=CKV_AZURE_34:Testing to get pr to pass before review
-  #checkov:skip=CKV2_AZURE_21:Testing to get pr to pass before review
-  name                  = "$web"
-  storage_account_id    = azurerm_storage_account.mta-sts.id
-  container_access_type = "blob"
-
-  depends_on = [azurerm_storage_account_static_website.mta-sts]
-}
-
 resource "azurerm_storage_blob" "mta-sts" {
-  depends_on           = [azurerm_storage_container.web]
+  depends_on           = [azurerm_storage_account_static_website.mta-sts]
   name                 = ".well-known/mta-sts.txt"
-  storage_container_id = azurerm_storage_container.web.id
+  storage_container_id = local.web-container-id
   type                 = "Block"
   content_type         = "text/plain"
   source_content       = <<EOF
@@ -67,18 +61,18 @@ ${join("", formatlist("mx: %s\n", var.mx-records))}max_age: ${var.max-age}
 }
 
 resource "azurerm_storage_blob" "index" {
-  depends_on           = [azurerm_storage_container.web]
+  depends_on           = [azurerm_storage_account_static_website.mta-sts]
   name                 = "index.htm"
-  storage_container_id = azurerm_storage_container.web.id
+  storage_container_id = local.web-container-id
   type                 = "Block"
   content_type         = "text/html"
   source_content       = "<html><head><title>Nothing to see</title></head><body><center><h1>Nothing to see</h1></center></body></html>"
 }
 
 resource "azurerm_storage_blob" "error" {
-  depends_on           = [azurerm_storage_container.web]
+  depends_on           = [azurerm_storage_account_static_website.mta-sts]
   name                 = "error.htm"
-  storage_container_id = azurerm_storage_container.web.id
+  storage_container_id = local.web-container-id
   type                 = "Block"
   content_type         = "text/html"
   source_content       = "<html><head><title>Error Page</title></head><body><center><h1>Nothing to see</h1></center></body></html>"
