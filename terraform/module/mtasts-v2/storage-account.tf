@@ -1,3 +1,8 @@
+locals {
+  # existing locals stay as they are (e.g. storage-account-name)
+  web-container-id = "${azurerm_storage_account.mta-sts.id}/blobServices/default/containers/$web"
+}
+
 resource "azurerm_storage_account" "mta-sts" {
   #checkov:skip=CKV_AZURE_33:Not using queue service
   #checkov:skip=CKV_AZURE_43:Own naming convention is in use
@@ -43,13 +48,12 @@ resource "azurerm_storage_account_static_website" "mta-sts" {
 }
 
 resource "azurerm_storage_blob" "mta-sts" {
-  depends_on             = [azurerm_storage_account_static_website.mta-sts]
-  name                   = ".well-known/mta-sts.txt"
-  storage_account_name   = azurerm_storage_account.mta-sts.name
-  storage_container_name = "$web"
-  type                   = "Block"
-  content_type           = "text/plain"
-  source_content         = <<EOF
+  depends_on           = [azurerm_storage_account_static_website.mta-sts]
+  name                 = ".well-known/mta-sts.txt"
+  storage_container_id = local.web-container-id
+  type                 = "Block"
+  content_type         = "text/plain"
+  source_content       = <<EOF
 version: STSv1
 mode: ${var.mtastsmode}
 ${join("", formatlist("mx: %s\n", var.mx-records))}max_age: ${var.max-age}
@@ -57,21 +61,19 @@ ${join("", formatlist("mx: %s\n", var.mx-records))}max_age: ${var.max-age}
 }
 
 resource "azurerm_storage_blob" "index" {
-  depends_on             = [azurerm_storage_account_static_website.mta-sts]
-  name                   = "index.htm"
-  storage_account_name   = azurerm_storage_account.mta-sts.name
-  storage_container_name = "$web"
-  type                   = "Block"
-  content_type           = "text/html"
-  source_content         = "<html><head><title>Nothing to see</title></head><body><center><h1>Nothing to see</h1></center></body></html>"
+  depends_on           = [azurerm_storage_account_static_website.mta-sts]
+  name                 = "index.htm"
+  storage_container_id = local.web-container-id
+  type                 = "Block"
+  content_type         = "text/html"
+  source_content       = "<html><head><title>Nothing to see</title></head><body><center><h1>Nothing to see</h1></center></body></html>"
 }
 
 resource "azurerm_storage_blob" "error" {
-  depends_on             = [azurerm_storage_account_static_website.mta-sts]
-  name                   = "error.htm"
-  storage_account_name   = azurerm_storage_account.mta-sts.name
-  storage_container_name = "$web"
-  type                   = "Block"
-  content_type           = "text/html"
-  source_content         = "<html><head><title>Error Page</title></head><body><center><h1>Nothing to see</h1></center></body></html>"
+  depends_on           = [azurerm_storage_account_static_website.mta-sts]
+  name                 = "error.htm"
+  storage_container_id = local.web-container-id
+  type                 = "Block"
+  content_type         = "text/html"
+  source_content       = "<html><head><title>Error Page</title></head><body><center><h1>Nothing to see</h1></center></body></html>"
 }
