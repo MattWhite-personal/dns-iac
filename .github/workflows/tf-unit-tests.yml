@@ -39,7 +39,7 @@ jobs:
     # Perform a security scan of the terraform code using checkov
     - name: Run Checkov action
       id: checkov
-      uses: bridgecrewio/checkov-action@3f0caf0c3aa9f56ade6b49f6e60b63aaeafb75a3 # v12.3141.0
+      uses: bridgecrewio/checkov-action@b17b606d6ec72bb8ba5721ad5b7e340b80a9fc39 # v12.3142.0
       with: 
         framework: terraform
         # This will add both a CLI output to the console and create a results.sarif file
@@ -50,7 +50,7 @@ jobs:
      # Upload results to GitHub Advanced Security
     - name: Upload SARIF file
       if: success() || failure()
-      uses: github/codeql-action/upload-sarif@33d7b85da1a04171e211befe2c739303b9a4c066 # v4.39.3
+      uses: github/codeql-action/upload-sarif@915412ff23e8b7659517e607487dbeae018f2934 # v4.39.5
       with:
         sarif_file: results.sarif
         category: checkov
